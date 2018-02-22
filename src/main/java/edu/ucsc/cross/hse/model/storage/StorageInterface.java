@@ -2,7 +2,9 @@ package edu.ucsc.cross.hse.model.storage;
 
 import java.util.HashMap;
 
-public interface StorageDevice
+import edu.ucsc.cross.hse.model.data.general.DataItem;
+
+public interface StorageInterface
 {
 
 	public <T> void write(T data);

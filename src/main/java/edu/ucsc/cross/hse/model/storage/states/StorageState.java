@@ -1,15 +1,17 @@
-package edu.ucsc.cross.hse.model.storage;
+package edu.ucsc.cross.hse.model.storage.states;
 
 import java.util.HashMap;
 
 import com.carrotsearch.sizeof.RamUsageEstimator;
 
 import edu.ucsc.cross.hse.core.modelling.DataStructure;
+import edu.ucsc.cross.hse.model.data.general.DataItem;
+import edu.ucsc.cross.hse.model.storage.specification.StorageDeviceStatus;
 
 public class StorageState extends DataStructure
 {
 
-	StorageDeviceStatus status;
+	public StorageDeviceStatus status;
 	public double storedDataSize;
 	public double dataToTransfer;
 	public HashMap<Object, DataItem<?>> storedData;

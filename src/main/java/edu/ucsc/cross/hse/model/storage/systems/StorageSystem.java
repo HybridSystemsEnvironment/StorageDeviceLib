@@ -1,11 +1,23 @@
-package edu.ucsc.cross.hse.model.storage;
+package edu.ucsc.cross.hse.model.storage.systems;
 
 import edu.ucsc.cross.hse.core.modelling.HybridSystem;
+import edu.ucsc.cross.hse.model.data.general.DataItem;
+import edu.ucsc.cross.hse.model.storage.StorageInterface;
+import edu.ucsc.cross.hse.model.storage.control.StorageController;
+import edu.ucsc.cross.hse.model.storage.parameters.StorageParameters;
+import edu.ucsc.cross.hse.model.storage.specification.StorageDeviceStatus;
+import edu.ucsc.cross.hse.model.storage.states.StorageState;
 
 public class StorageSystem extends HybridSystem<StorageState>
 {
 
 	StorageController controller;
+
+	public StorageInterface getStorage()
+	{
+		return controller.getStorage();
+	}
+
 	StorageParameters params;
 	DataItem<?> pending;
 
@@ -55,7 +67,7 @@ public class StorageSystem extends HybridSystem<StorageState>
 		}
 	}
 
-	public double getStoredDataSize(StorageState x)
+	public static double getStoredDataSize(StorageState x)
 	{
 		double stored = 0.0;
 		System.out.println(x.storedData.size());

@@ -1,4 +1,4 @@
-package edu.ucsc.cross.hse.model.storage;
+package edu.ucsc.cross.hse.model.data.general;
 
 public interface Data<D>
 {

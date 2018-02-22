@@ -14,6 +14,10 @@ import edu.ucsc.cross.hse.core.logging.Console;
 import edu.ucsc.cross.hse.core.modelling.SystemSet;
 import edu.ucsc.cross.hse.core.trajectory.HybridTime;
 import edu.ucsc.cross.hse.core.trajectory.TrajectorySet;
+import edu.ucsc.cross.hse.model.storage.control.FIFOStorageController;
+import edu.ucsc.cross.hse.model.storage.parameters.StorageParameters;
+import edu.ucsc.cross.hse.model.storage.states.StorageState;
+import edu.ucsc.cross.hse.model.storage.systems.StorageSystem;
 
 public class TestNetwork
 {
@@ -74,16 +78,16 @@ public class TestNetwork
 		settings.odeMinimumStepSize = .00000005;
 		settings.eventHandlerMaximumCheckInterval = .00005;
 		// initialize the execution parameters 
-		ExecutionParameters parameters = new ExecutionParameters(545.0, 53320, .5);
+		ExecutionParameters parameters = new ExecutionParameters(45.0, 53320, .5);
 		// initialize the node parameters
 
 		// create environment
 		HSEnvironment env = HSEnvironment.create(systems, parameters, settings);
 		StorageParameters params = new StorageParameters(10, 10);
-		StorageQUeue sq = new StorageQUeue();
+		FIFOStorageController sq = new FIFOStorageController();
 		for (int i = 0; i < 10; i++)
 		{
-			sq.write("YEYSYADHSDHAIDHSIFHSKFLAKLFJS");
+			sq.storageQueue.write("YEYSYADHSDHAIDHSIFHSKFLAKLFJS");
 		}
 		StorageSystem s = new StorageSystem(new StorageState(), params, sq);
 		env.getSystems().add(s);

@@ -1,4 +1,4 @@
-package edu.ucsc.cross.hse.model.storage;
+package edu.ucsc.cross.hse.model.storage.specification;
 
 public enum StorageDeviceStatus
 {
