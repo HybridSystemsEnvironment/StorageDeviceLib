@@ -1,6 +1,6 @@
 package edu.ucsc.cross.hse.model.storage.control;
 
-import edu.ucsc.cross.hse.model.data.general.DataItem;
+import edu.ucsc.cross.hse.model.data.Data;
 import edu.ucsc.cross.hse.model.storage.StorageInterface;
 import edu.ucsc.cross.hse.model.storage.specification.StorageDeviceStatus;
 
@@ -13,8 +13,8 @@ public interface StorageController
 
 	public StorageDeviceStatus nextStatus();
 
-	public <T> DataItem<?> nextTransfer();
+	public Data nextTransfer();
 
-	public void completed(DataItem<?> done);
+	public void completed(Data done);
 
 }

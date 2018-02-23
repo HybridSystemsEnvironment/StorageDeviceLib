@@ -1,6 +1,6 @@
 package edu.ucsc.cross.hse.model.storage.control;
 
-import edu.ucsc.cross.hse.model.data.general.DataItem;
+import edu.ucsc.cross.hse.model.data.Data;
 import edu.ucsc.cross.hse.model.storage.StorageInterface;
 import edu.ucsc.cross.hse.model.storage.specification.StorageDeviceStatus;
 import edu.ucsc.cross.hse.model.storage.states.StorageQueue;
@@ -44,22 +44,22 @@ public class FIFOStorageController implements StorageController
 	}
 
 	@Override
-	public DataItem<?> nextTransfer()
+	public Data nextTransfer()
 	{
 		storageQueue.pending = storageQueue.ordered.get(0);
 		return storageQueue.ordered.get(0);
 	}
 
 	@Override
-	public void completed(DataItem<?> data)
+	public void completed(Data data)
 	{
 		if (storageQueue.pendingReads.contains(data))
 		{
-			storageQueue.completedReads.put(data.getAddress(), data.copy());
+			storageQueue.completedReads.put(data.getId(), data.copy());
 			storageQueue.pendingReads.remove(data);
 		} else
 		{
-			storageQueue.completedWrites.put(data.getAddress(), data.copy());
+			storageQueue.completedWrites.put(data.getId(), data.copy());
 			storageQueue.pendingWrites.remove(data);
 		}
 		storageQueue.ordered.remove(0);

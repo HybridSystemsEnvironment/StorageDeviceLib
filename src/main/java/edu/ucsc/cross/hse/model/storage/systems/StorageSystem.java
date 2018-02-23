@@ -1,7 +1,7 @@
 package edu.ucsc.cross.hse.model.storage.systems;
 
-import edu.ucsc.cross.hse.core.modelling.HybridSystem;
-import edu.ucsc.cross.hse.model.data.general.DataItem;
+import edu.ucsc.cross.hse.core.modeling.HybridSystem;
+import edu.ucsc.cross.hse.model.data.Data;
 import edu.ucsc.cross.hse.model.storage.StorageInterface;
 import edu.ucsc.cross.hse.model.storage.control.StorageController;
 import edu.ucsc.cross.hse.model.storage.parameters.StorageParameters;
@@ -19,7 +19,7 @@ public class StorageSystem extends HybridSystem<StorageState>
 	}
 
 	StorageParameters params;
-	DataItem<?> pending;
+	Data pending;
 
 	public StorageSystem(StorageState state, StorageParameters params, StorageController controller)
 	{
@@ -53,7 +53,7 @@ public class StorageSystem extends HybridSystem<StorageState>
 	{
 		if (pending != null && arg1.dataToTransfer <= 0)
 		{
-			arg1.storedData.put(pending.getAddress(), pending.copy());
+			arg1.storedData.put(pending.getId(), pending.copy());
 			controller.completed(pending);
 			arg1.storedDataSize = getStoredDataSize(arg1);
 			pending = null;
@@ -71,7 +71,7 @@ public class StorageSystem extends HybridSystem<StorageState>
 	{
 		double stored = 0.0;
 		System.out.println(x.storedData.size());
-		for (DataItem<?> p : x.storedData.values())
+		for (Data p : x.storedData.values())
 		{
 			stored += p.getSize();
 		}

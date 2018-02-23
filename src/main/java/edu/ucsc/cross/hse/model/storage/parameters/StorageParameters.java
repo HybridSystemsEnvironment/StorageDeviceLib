@@ -1,6 +1,6 @@
 package edu.ucsc.cross.hse.model.storage.parameters;
 
-import edu.ucsc.cross.hse.core.modelling.DataStructure;
+import edu.ucsc.cross.hse.core.modeling.DataStructure;
 import edu.ucsc.cross.hse.model.storage.specification.StorageDeviceStatus;
 
 public class StorageParameters extends DataStructure
