@@ -7,14 +7,14 @@ import edu.ucsc.cross.hse.model.storage.specification.StorageDeviceStatus;
 public interface StorageController
 {
 
-	public StorageInterface getStorage();
+	public StorageInterface getInterface();
 
-	public boolean actionReady();
+	public boolean isHardwareActionPending();
 
-	public StorageDeviceStatus nextStatus();
+	public StorageDeviceStatus getIntendedHardwareStatus();
 
-	public Data nextTransfer();
+	public Data getNextDataTransfer();
 
-	public void completed(Data done);
+	public void adknowledgeCompletedTransfer(Data done);
 
 }

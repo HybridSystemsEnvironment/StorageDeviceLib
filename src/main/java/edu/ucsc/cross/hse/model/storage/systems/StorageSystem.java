@@ -15,7 +15,7 @@ public class StorageSystem extends HybridSystem<StorageState>
 
 	public StorageInterface getStorage()
 	{
-		return controller.getStorage();
+		return controller.getInterface();
 	}
 
 	StorageParameters params;
@@ -38,7 +38,7 @@ public class StorageSystem extends HybridSystem<StorageState>
 	@Override
 	public boolean D(StorageState arg0)
 	{
-		return controller.actionReady() || (arg0.dataToTransfer <= 0.0 && C(arg0));
+		return controller.isHardwareActionPending() || (arg0.dataToTransfer <= 0.0 && C(arg0));
 
 	}
 
@@ -54,16 +54,16 @@ public class StorageSystem extends HybridSystem<StorageState>
 		if (pending != null && arg1.dataToTransfer <= 0)
 		{
 			arg1.storedData.put(pending.getId(), pending.copy());
-			controller.completed(pending);
+			controller.adknowledgeCompletedTransfer(pending);
 			arg1.storedDataSize = getStoredDataSize(arg1);
 			pending = null;
 
 		}
-		if (controller.actionReady())
+		if (controller.isHardwareActionPending())
 		{
-			arg1.status = controller.nextStatus();
-			arg1.dataToTransfer = controller.nextTransfer().getSize();
-			pending = controller.nextTransfer();
+			arg1.status = controller.getIntendedHardwareStatus();
+			arg1.dataToTransfer = controller.getNextDataTransfer().getSize();
+			pending = controller.getNextDataTransfer();
 		}
 	}
 

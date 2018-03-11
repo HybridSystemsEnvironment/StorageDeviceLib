@@ -15,20 +15,20 @@ public class FIFOStorageController implements StorageController
 		storageQueue = new StorageQueue();
 	}
 
-	public StorageInterface getStorage()
+	public StorageInterface getInterface()
 	{
 		return storageQueue;
 	}
 
 	@Override
-	public boolean actionReady()
+	public boolean isHardwareActionPending()
 	{
 		// TODO Auto-generated method stub
 		return storageQueue.pending == null && storageQueue.ordered.size() > 0;
 	}
 
 	@Override
-	public StorageDeviceStatus nextStatus()
+	public StorageDeviceStatus getIntendedHardwareStatus()
 	{
 		// TODO Auto-generated method stub
 		if (storageQueue.pendingReads.contains(storageQueue.ordered.get(0)))
@@ -44,14 +44,14 @@ public class FIFOStorageController implements StorageController
 	}
 
 	@Override
-	public Data nextTransfer()
+	public Data getNextDataTransfer()
 	{
 		storageQueue.pending = storageQueue.ordered.get(0);
 		return storageQueue.ordered.get(0);
 	}
 
 	@Override
-	public void completed(Data data)
+	public void adknowledgeCompletedTransfer(Data data)
 	{
 		if (storageQueue.pendingReads.contains(data))
 		{

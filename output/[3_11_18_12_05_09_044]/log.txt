@@ -1,0 +1,6 @@
+[12:05:09.104][info] Environment started  [14/246 mB]
+[12:05:14.109][info] monitor : 0.00% complete : sim time = 0.00 : jumps = 0  [30/246 mB]
+[12:05:19.110][info] monitor : 0.00% complete : sim time = 0.00 : jumps = 0  [40/246 mB]
+[12:05:24.111][info] monitor : 0.00% complete : sim time = 0.00 : jumps = 0  [51/246 mB]
+[12:05:29.112][info] monitor : 0.00% complete : sim time = 0.00 : jumps = 0  [61/246 mB]
+[12:05:34.113][info] monitor : 0.00% complete : sim time = 0.00 : jumps = 0  [9/234 mB]
