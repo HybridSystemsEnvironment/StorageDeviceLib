@@ -25,7 +25,7 @@ public class StorageParameters extends DataStructure
 			return writeSpeed;
 		} else
 		{
-			return 0.0;
+			return 111110.0;
 		}
 	}
 }

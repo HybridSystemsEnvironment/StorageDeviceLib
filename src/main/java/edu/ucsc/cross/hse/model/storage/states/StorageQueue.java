@@ -5,9 +5,9 @@ import java.util.HashMap;
 
 import edu.ucsc.cross.hse.model.data.Data;
 import edu.ucsc.cross.hse.model.data.objects.RealData;
-import edu.ucsc.cross.hse.model.storage.StorageInterface;
+import edu.ucsc.cross.hse.model.storage.StorageDevice;
 
-public class StorageQueue implements StorageInterface
+public class StorageQueue implements StorageDevice
 {
 
 	public ArrayList<Data> pendingWrites;

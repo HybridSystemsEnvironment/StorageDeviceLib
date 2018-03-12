@@ -1,7 +1,7 @@
 package edu.ucsc.cross.hse.model.storage.control;
 
 import edu.ucsc.cross.hse.model.data.Data;
-import edu.ucsc.cross.hse.model.storage.StorageInterface;
+import edu.ucsc.cross.hse.model.storage.StorageDevice;
 import edu.ucsc.cross.hse.model.storage.specification.StorageDeviceStatus;
 import edu.ucsc.cross.hse.model.storage.states.StorageQueue;
 
@@ -9,26 +9,27 @@ public class FIFOStorageController implements StorageController
 {
 
 	public StorageQueue storageQueue;
+	public StorageDevice storageDevice;
 
 	public FIFOStorageController()
 	{
 		storageQueue = new StorageQueue();
 	}
 
-	public StorageInterface getInterface()
+	public StorageDevice getDevice()
 	{
 		return storageQueue;
 	}
 
 	@Override
-	public boolean isHardwareActionPending()
+	public boolean isRequestPending()
 	{
 		// TODO Auto-generated method stub
 		return storageQueue.pending == null && storageQueue.ordered.size() > 0;
 	}
 
 	@Override
-	public StorageDeviceStatus getIntendedHardwareStatus()
+	public StorageDeviceStatus getHardwareStatus()
 	{
 		// TODO Auto-generated method stub
 		if (storageQueue.pendingReads.contains(storageQueue.ordered.get(0)))
@@ -44,14 +45,14 @@ public class FIFOStorageController implements StorageController
 	}
 
 	@Override
-	public Data getNextDataTransfer()
+	public Data getNextRequest()
 	{
 		storageQueue.pending = storageQueue.ordered.get(0);
 		return storageQueue.ordered.get(0);
 	}
 
 	@Override
-	public void adknowledgeCompletedTransfer(Data data)
+	public void adknowledgeCompletedRequest(Data data)
 	{
 		if (storageQueue.pendingReads.contains(data))
 		{

@@ -1,7 +1,7 @@
 package edu.ucsc.cross.hse.model.storage.control.consistency;
 
 import edu.ucsc.cross.hse.core.modeling.DataStructure;
-import edu.ucsc.cross.hse.model.storage.StorageInterface;
+import edu.ucsc.cross.hse.model.storage.StorageDevice;
 import edu.ucsc.cross.hse.model.storage.states.StorageQueue;
 
 public class BroadcastState extends DataStructure
@@ -16,7 +16,7 @@ public class BroadcastState extends DataStructure
 		storageQueue = new StorageQueue();
 	}
 
-	public StorageInterface getInterface()
+	public StorageDevice getInterface()
 	{
 		return storageQueue;
 	}

@@ -9,7 +9,7 @@ import edu.ucsc.cross.hse.model.data.objects.RealData;
 import edu.ucsc.cross.hse.model.data.packet.BasicPacket;
 import edu.ucsc.cross.hse.model.data.packet.Packet;
 import edu.ucsc.cross.hse.model.data.packet.header.MinimalHeader;
-import edu.ucsc.cross.hse.model.storage.StorageInterface;
+import edu.ucsc.cross.hse.model.storage.StorageDevice;
 import edu.ucsc.cross.hse.model.storage.control.StorageController;
 import edu.ucsc.cross.hse.model.storage.specification.StorageDeviceStatus;
 import edu.ucsc.cross.hse.model.storage.states.ConsistencyControlState;
@@ -33,23 +33,22 @@ public class ParamConsistencyController extends HybridSystem<ConsistencyControlS
 		node = stor;
 		this.storageQueue = storageQueue;
 		consQueue = new ConsistentQueue();
-
 	}
 
-	public StorageInterface getInterface()
+	public StorageDevice getDevice()
 	{
 		return consQueue;
 	}
 
 	@Override
-	public boolean isHardwareActionPending()
+	public boolean isRequestPending()
 	{
 		// TODO Auto-generated method stub
-		return (!writing) && (consQueue.pendingWrites.size() > 0 || consQueue.pendingReads.size() > 0);
+		return (!writing) && (consQueue.pendingWrites.size() > 0);//|| consQueue.pendingReads.size() > 0);
 	}
 
 	@Override
-	public StorageDeviceStatus getIntendedHardwareStatus()
+	public StorageDeviceStatus getHardwareStatus()
 	{
 		//		// TODO Auto-generated method stub
 		//		if (storageQueue.pendingReads.contains(storageQueue.ordered.get(0)))
@@ -71,17 +70,22 @@ public class ParamConsistencyController extends HybridSystem<ConsistencyControlS
 	}
 
 	@Override
-	public Data getNextDataTransfer()
+	public Data getNextRequest()
 	{
 		System.out.println("n");
 		writing = true;
-		return consQueue.pendingWrites.get(0);
+		Data d = consQueue.pendingWrites
+		.get(consQueue.pendingWrites.keySet().toArray(new Object[consQueue.pendingWrites.size()])[0]);
+		consQueue.pendingWrites.remove(d);
+		return d;//consQueue.pendingWrites
+		//.get(consQueue.pendingWrites.keySet().toArray(new Object[consQueue.pendingWrites.size()])[0]);
 	}
 
 	@Override
-	public void adknowledgeCompletedTransfer(Data data)
+	public void adknowledgeCompletedRequest(Data data)
 	{
 		consQueue.pendingWrites.remove(data);
+		consQueue.localUpdateQueue.remove(data);
 		writing = false;
 		System.out.println(data);
 	}
@@ -96,11 +100,11 @@ public class ParamConsistencyController extends HybridSystem<ConsistencyControlS
 	@Override
 	public boolean D(ConsistencyControlState arg0)
 	{
-		boolean broadcast = broadcastAdknowledged(arg0);
+		//boolean broadcast = broadcastAdknowledged(arg0);
 		boolean turn = becomingBroadcaster(arg0);
 		boolean receiveBroadcast = receivingBroadcast(arg0);
 		boolean receiveAck = receivingAdknowledgement(arg0);
-		return broadcast || turn || receiveBroadcast || receiveAck;
+		return turn || receiveBroadcast || receiveAck;
 	}
 
 	@Override
@@ -116,6 +120,7 @@ public class ParamConsistencyController extends HybridSystem<ConsistencyControlS
 		processAdknowledgements(arg1);
 		processReceivedPacket();
 		processChangeBroadcaster(arg0, arg1);
+
 	}
 
 	public void processAdknowledgements(ConsistencyControlState arg1)
@@ -163,13 +168,15 @@ public class ParamConsistencyController extends HybridSystem<ConsistencyControlS
 		{
 			if (arg0.isTurn <= 0.0)
 			{
-				System.out.println(this + "'s turn");
+				//System.out.println(this + "'s turn");
+				transmitUpdates(new UpdateQueue(consQueue.localUpdateQueue));
 				arg1.isTurn = 1.0;
 			} else
 			{
-				if (storageQueue.pendingUpdates() || arg1.pendingTransmissions.size() <= 0.0)
+				if (storageQueue.pendingUpdates() || arg0.pendingTransmissions.size() <= 0.0)
 				{
 					arg1.isTurn = 0.0;
+					consQueue.localUpdateQueue.clear();
 					storageQueue.nextTurn();
 				}
 			}
@@ -182,7 +189,7 @@ public class ParamConsistencyController extends HybridSystem<ConsistencyControlS
 		{
 			if (!consQueue.localUpdateQueue.containsKey(key))
 			{
-				consQueue.localDataReplica.put(key, queue.localDataReplica.get(key));
+				consQueue.pendingWrites.put(key, queue.localDataReplica.get(key));
 			}
 		}
 	}
@@ -218,7 +225,7 @@ public class ParamConsistencyController extends HybridSystem<ConsistencyControlS
 		return pending;
 	}
 
-	public boolean broadcastAdknowledged(ConsistencyControlState arg0)
+	public boolean adknowledgeCompletedRequest(ConsistencyControlState arg0)
 	{
 		if (arg0.isTurn > 0)
 		{

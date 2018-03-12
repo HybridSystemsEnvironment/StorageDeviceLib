@@ -1,0 +1,398 @@
+[12:53:40.541][info] Environment started  [305/719 mB]
+[12:53:40.668][info] status: 0.00%  complete : sim time = 0.00 : jumps = 0  [310/719 mB]
+[12:53:40.748][error] Apply Dynamics Error on class edu.ucsc.cross.hse.model.storage.systems.StorageSystem with state: 
+<edu.ucsc.cross.hse.model.storage.states.StorageState>
+  <properties>
+    <index>2</index>
+    <name>StorageState</name>
+    <storeTrajectory>true</storeTrajectory>
+  </properties>
+  <status>OFF</status>
+  <storedDataSize>0.0</storedDataSize>
+  <dataToTransfer>0.0</dataToTransfer>
+  <storedData/>
+</edu.ucsc.cross.hse.model.storage.states.StorageState>  [310/719 mB]
+java.lang.NullPointerException
+	at edu.ucsc.cross.hse.model.storage.systems.StorageSystem.G(StorageSystem.java:67)
+	at edu.ucsc.cross.hse.model.storage.systems.StorageSystem.G(StorageSystem.java:1)
+	at edu.ucsc.cross.hse.core.modeling.SystemInteractor.g(SystemInteractor.java:63)
+	at edu.ucsc.cross.hse.core.processors.DynamicsEvaluator.applyDynamics(DynamicsEvaluator.java:56)
+	at edu.ucsc.cross.hse.core.processors.DynamicsEvaluator.evaluateDynamics(DynamicsEvaluator.java:33)
+	at edu.ucsc.cross.hse.core.monitors.DomainMonitor.executeJumps(DomainMonitor.java:127)
+	at edu.ucsc.cross.hse.core.monitors.DomainMonitor.resetState(DomainMonitor.java:115)
+	at org.apache.commons.math3.ode.events.EventState.reset(EventState.java:396)
+	at org.apache.commons.math3.ode.AbstractIntegrator.acceptStep(AbstractIntegrator.java:398)
+	at org.apache.commons.math3.ode.nonstiff.EmbeddedRungeKuttaIntegrator.integrate(EmbeddedRungeKuttaIntegrator.java:302)
+	at org.apache.commons.math3.ode.AbstractIntegrator.integrate(AbstractIntegrator.java:252)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.recursiveIntegrator(IntegratorSupport.java:115)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.recursiveIntegrator(IntegratorSupport.java:87)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.runIntegrator(IntegratorSupport.java:296)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.launchEnvironment(IntegratorSupport.java:66)
+	at edu.ucsc.cross.hse.core.processors.HSEngine.start(HSEngine.java:220)
+	at edu.ucsc.cross.hse.core.processors.HSEngine.run(HSEngine.java:183)
+	at edu.ucsc.cross.hse.core.environment.HSEnvironment.run(HSEnvironment.java:203)
+	at edu.ucsc.cross.hse.model.storage.control.consistency.ConsensusSystem.ionAndPlot(ConsensusSystem.java:71)
+	at edu.ucsc.cross.hse.model.storage.control.consistency.ConsensusSystem.main(ConsensusSystem.java:39)
+[12:53:40.756][error] Apply Dynamics Error on class edu.ucsc.cross.hse.model.storage.systems.StorageSystem with state: 
+<edu.ucsc.cross.hse.model.storage.states.StorageState>
+  <properties>
+    <index>11</index>
+    <name>StorageState</name>
+    <storeTrajectory>true</storeTrajectory>
+  </properties>
+  <status>OFF</status>
+  <storedDataSize>0.0</storedDataSize>
+  <dataToTransfer>0.0</dataToTransfer>
+  <storedData/>
+</edu.ucsc.cross.hse.model.storage.states.StorageState>  [310/719 mB]
+java.lang.NullPointerException
+	at edu.ucsc.cross.hse.model.storage.systems.StorageSystem.G(StorageSystem.java:67)
+	at edu.ucsc.cross.hse.model.storage.systems.StorageSystem.G(StorageSystem.java:1)
+	at edu.ucsc.cross.hse.core.modeling.SystemInteractor.g(SystemInteractor.java:63)
+	at edu.ucsc.cross.hse.core.processors.DynamicsEvaluator.applyDynamics(DynamicsEvaluator.java:56)
+	at edu.ucsc.cross.hse.core.processors.DynamicsEvaluator.evaluateDynamics(DynamicsEvaluator.java:33)
+	at edu.ucsc.cross.hse.core.monitors.DomainMonitor.executeJumps(DomainMonitor.java:127)
+	at edu.ucsc.cross.hse.core.monitors.DomainMonitor.resetState(DomainMonitor.java:115)
+	at org.apache.commons.math3.ode.events.EventState.reset(EventState.java:396)
+	at org.apache.commons.math3.ode.AbstractIntegrator.acceptStep(AbstractIntegrator.java:398)
+	at org.apache.commons.math3.ode.nonstiff.EmbeddedRungeKuttaIntegrator.integrate(EmbeddedRungeKuttaIntegrator.java:302)
+	at org.apache.commons.math3.ode.AbstractIntegrator.integrate(AbstractIntegrator.java:252)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.recursiveIntegrator(IntegratorSupport.java:115)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.recursiveIntegrator(IntegratorSupport.java:87)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.runIntegrator(IntegratorSupport.java:296)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.launchEnvironment(IntegratorSupport.java:66)
+	at edu.ucsc.cross.hse.core.processors.HSEngine.start(HSEngine.java:220)
+	at edu.ucsc.cross.hse.core.processors.HSEngine.run(HSEngine.java:183)
+	at edu.ucsc.cross.hse.core.environment.HSEnvironment.run(HSEnvironment.java:203)
+	at edu.ucsc.cross.hse.model.storage.control.consistency.ConsensusSystem.ionAndPlot(ConsensusSystem.java:71)
+	at edu.ucsc.cross.hse.model.storage.control.consistency.ConsensusSystem.main(ConsensusSystem.java:39)
+[12:53:40.760][error] Apply Dynamics Error on class edu.ucsc.cross.hse.model.storage.systems.StorageSystem with state: 
+<edu.ucsc.cross.hse.model.storage.states.StorageState>
+  <properties>
+    <index>9</index>
+    <name>StorageState</name>
+    <storeTrajectory>true</storeTrajectory>
+  </properties>
+  <status>OFF</status>
+  <storedDataSize>0.0</storedDataSize>
+  <dataToTransfer>0.0</dataToTransfer>
+  <storedData/>
+</edu.ucsc.cross.hse.model.storage.states.StorageState>  [310/719 mB]
+java.lang.NullPointerException
+	at edu.ucsc.cross.hse.model.storage.systems.StorageSystem.G(StorageSystem.java:67)
+	at edu.ucsc.cross.hse.model.storage.systems.StorageSystem.G(StorageSystem.java:1)
+	at edu.ucsc.cross.hse.core.modeling.SystemInteractor.g(SystemInteractor.java:63)
+	at edu.ucsc.cross.hse.core.processors.DynamicsEvaluator.applyDynamics(DynamicsEvaluator.java:56)
+	at edu.ucsc.cross.hse.core.processors.DynamicsEvaluator.evaluateDynamics(DynamicsEvaluator.java:33)
+	at edu.ucsc.cross.hse.core.monitors.DomainMonitor.executeJumps(DomainMonitor.java:127)
+	at edu.ucsc.cross.hse.core.monitors.DomainMonitor.resetState(DomainMonitor.java:115)
+	at org.apache.commons.math3.ode.events.EventState.reset(EventState.java:396)
+	at org.apache.commons.math3.ode.AbstractIntegrator.acceptStep(AbstractIntegrator.java:398)
+	at org.apache.commons.math3.ode.nonstiff.EmbeddedRungeKuttaIntegrator.integrate(EmbeddedRungeKuttaIntegrator.java:302)
+	at org.apache.commons.math3.ode.AbstractIntegrator.integrate(AbstractIntegrator.java:252)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.recursiveIntegrator(IntegratorSupport.java:115)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.recursiveIntegrator(IntegratorSupport.java:87)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.runIntegrator(IntegratorSupport.java:296)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.launchEnvironment(IntegratorSupport.java:66)
+	at edu.ucsc.cross.hse.core.processors.HSEngine.start(HSEngine.java:220)
+	at edu.ucsc.cross.hse.core.processors.HSEngine.run(HSEngine.java:183)
+	at edu.ucsc.cross.hse.core.environment.HSEnvironment.run(HSEnvironment.java:203)
+	at edu.ucsc.cross.hse.model.storage.control.consistency.ConsensusSystem.ionAndPlot(ConsensusSystem.java:71)
+	at edu.ucsc.cross.hse.model.storage.control.consistency.ConsensusSystem.main(ConsensusSystem.java:39)
+[12:53:40.763][error] Apply Dynamics Error on class edu.ucsc.cross.hse.model.storage.systems.StorageSystem with state: 
+<edu.ucsc.cross.hse.model.storage.states.StorageState>
+  <properties>
+    <index>5</index>
+    <name>StorageState</name>
+    <storeTrajectory>true</storeTrajectory>
+  </properties>
+  <status>OFF</status>
+  <storedDataSize>0.0</storedDataSize>
+  <dataToTransfer>0.0</dataToTransfer>
+  <storedData/>
+</edu.ucsc.cross.hse.model.storage.states.StorageState>  [310/719 mB]
+java.lang.NullPointerException
+	at edu.ucsc.cross.hse.model.storage.systems.StorageSystem.G(StorageSystem.java:67)
+	at edu.ucsc.cross.hse.model.storage.systems.StorageSystem.G(StorageSystem.java:1)
+	at edu.ucsc.cross.hse.core.modeling.SystemInteractor.g(SystemInteractor.java:63)
+	at edu.ucsc.cross.hse.core.processors.DynamicsEvaluator.applyDynamics(DynamicsEvaluator.java:56)
+	at edu.ucsc.cross.hse.core.processors.DynamicsEvaluator.evaluateDynamics(DynamicsEvaluator.java:33)
+	at edu.ucsc.cross.hse.core.monitors.DomainMonitor.executeJumps(DomainMonitor.java:127)
+	at edu.ucsc.cross.hse.core.monitors.DomainMonitor.resetState(DomainMonitor.java:115)
+	at org.apache.commons.math3.ode.events.EventState.reset(EventState.java:396)
+	at org.apache.commons.math3.ode.AbstractIntegrator.acceptStep(AbstractIntegrator.java:398)
+	at org.apache.commons.math3.ode.nonstiff.EmbeddedRungeKuttaIntegrator.integrate(EmbeddedRungeKuttaIntegrator.java:302)
+	at org.apache.commons.math3.ode.AbstractIntegrator.integrate(AbstractIntegrator.java:252)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.recursiveIntegrator(IntegratorSupport.java:115)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.recursiveIntegrator(IntegratorSupport.java:87)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.runIntegrator(IntegratorSupport.java:296)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.launchEnvironment(IntegratorSupport.java:66)
+	at edu.ucsc.cross.hse.core.processors.HSEngine.start(HSEngine.java:220)
+	at edu.ucsc.cross.hse.core.processors.HSEngine.run(HSEngine.java:183)
+	at edu.ucsc.cross.hse.core.environment.HSEnvironment.run(HSEnvironment.java:203)
+	at edu.ucsc.cross.hse.model.storage.control.consistency.ConsensusSystem.ionAndPlot(ConsensusSystem.java:71)
+	at edu.ucsc.cross.hse.model.storage.control.consistency.ConsensusSystem.main(ConsensusSystem.java:39)
+[12:53:40.766][error] Apply Dynamics Error on class edu.ucsc.cross.hse.model.storage.systems.StorageSystem with state: 
+<edu.ucsc.cross.hse.model.storage.states.StorageState>
+  <properties>
+    <index>15</index>
+    <name>StorageState</name>
+    <storeTrajectory>true</storeTrajectory>
+  </properties>
+  <status>OFF</status>
+  <storedDataSize>0.0</storedDataSize>
+  <dataToTransfer>0.0</dataToTransfer>
+  <storedData/>
+</edu.ucsc.cross.hse.model.storage.states.StorageState>  [310/719 mB]
+java.lang.NullPointerException
+	at edu.ucsc.cross.hse.model.storage.systems.StorageSystem.G(StorageSystem.java:67)
+	at edu.ucsc.cross.hse.model.storage.systems.StorageSystem.G(StorageSystem.java:1)
+	at edu.ucsc.cross.hse.core.modeling.SystemInteractor.g(SystemInteractor.java:63)
+	at edu.ucsc.cross.hse.core.processors.DynamicsEvaluator.applyDynamics(DynamicsEvaluator.java:56)
+	at edu.ucsc.cross.hse.core.processors.DynamicsEvaluator.evaluateDynamics(DynamicsEvaluator.java:33)
+	at edu.ucsc.cross.hse.core.monitors.DomainMonitor.executeJumps(DomainMonitor.java:127)
+	at edu.ucsc.cross.hse.core.monitors.DomainMonitor.resetState(DomainMonitor.java:115)
+	at org.apache.commons.math3.ode.events.EventState.reset(EventState.java:396)
+	at org.apache.commons.math3.ode.AbstractIntegrator.acceptStep(AbstractIntegrator.java:398)
+	at org.apache.commons.math3.ode.nonstiff.EmbeddedRungeKuttaIntegrator.integrate(EmbeddedRungeKuttaIntegrator.java:302)
+	at org.apache.commons.math3.ode.AbstractIntegrator.integrate(AbstractIntegrator.java:252)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.recursiveIntegrator(IntegratorSupport.java:115)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.recursiveIntegrator(IntegratorSupport.java:87)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.runIntegrator(IntegratorSupport.java:296)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.launchEnvironment(IntegratorSupport.java:66)
+	at edu.ucsc.cross.hse.core.processors.HSEngine.start(HSEngine.java:220)
+	at edu.ucsc.cross.hse.core.processors.HSEngine.run(HSEngine.java:183)
+	at edu.ucsc.cross.hse.core.environment.HSEnvironment.run(HSEnvironment.java:203)
+	at edu.ucsc.cross.hse.model.storage.control.consistency.ConsensusSystem.ionAndPlot(ConsensusSystem.java:71)
+	at edu.ucsc.cross.hse.model.storage.control.consistency.ConsensusSystem.main(ConsensusSystem.java:39)
+[12:53:40.768][error] Apply Dynamics Error on class edu.ucsc.cross.hse.model.storage.systems.StorageSystem with state: 
+<edu.ucsc.cross.hse.model.storage.states.StorageState>
+  <properties>
+    <index>7</index>
+    <name>StorageState</name>
+    <storeTrajectory>true</storeTrajectory>
+  </properties>
+  <status>OFF</status>
+  <storedDataSize>0.0</storedDataSize>
+  <dataToTransfer>0.0</dataToTransfer>
+  <storedData/>
+</edu.ucsc.cross.hse.model.storage.states.StorageState>  [310/719 mB]
+java.lang.NullPointerException
+	at edu.ucsc.cross.hse.model.storage.systems.StorageSystem.G(StorageSystem.java:67)
+	at edu.ucsc.cross.hse.model.storage.systems.StorageSystem.G(StorageSystem.java:1)
+	at edu.ucsc.cross.hse.core.modeling.SystemInteractor.g(SystemInteractor.java:63)
+	at edu.ucsc.cross.hse.core.processors.DynamicsEvaluator.applyDynamics(DynamicsEvaluator.java:56)
+	at edu.ucsc.cross.hse.core.processors.DynamicsEvaluator.evaluateDynamics(DynamicsEvaluator.java:33)
+	at edu.ucsc.cross.hse.core.monitors.DomainMonitor.executeJumps(DomainMonitor.java:127)
+	at edu.ucsc.cross.hse.core.monitors.DomainMonitor.resetState(DomainMonitor.java:115)
+	at org.apache.commons.math3.ode.events.EventState.reset(EventState.java:396)
+	at org.apache.commons.math3.ode.AbstractIntegrator.acceptStep(AbstractIntegrator.java:398)
+	at org.apache.commons.math3.ode.nonstiff.EmbeddedRungeKuttaIntegrator.integrate(EmbeddedRungeKuttaIntegrator.java:302)
+	at org.apache.commons.math3.ode.AbstractIntegrator.integrate(AbstractIntegrator.java:252)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.recursiveIntegrator(IntegratorSupport.java:115)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.recursiveIntegrator(IntegratorSupport.java:87)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.runIntegrator(IntegratorSupport.java:296)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.launchEnvironment(IntegratorSupport.java:66)
+	at edu.ucsc.cross.hse.core.processors.HSEngine.start(HSEngine.java:220)
+	at edu.ucsc.cross.hse.core.processors.HSEngine.run(HSEngine.java:183)
+	at edu.ucsc.cross.hse.core.environment.HSEnvironment.run(HSEnvironment.java:203)
+	at edu.ucsc.cross.hse.model.storage.control.consistency.ConsensusSystem.ionAndPlot(ConsensusSystem.java:71)
+	at edu.ucsc.cross.hse.model.storage.control.consistency.ConsensusSystem.main(ConsensusSystem.java:39)
+[12:53:40.772][error] Apply Dynamics Error on class edu.ucsc.cross.hse.model.storage.systems.StorageSystem with state: 
+<edu.ucsc.cross.hse.model.storage.states.StorageState>
+  <properties>
+    <index>3</index>
+    <name>StorageState</name>
+    <storeTrajectory>true</storeTrajectory>
+  </properties>
+  <status>OFF</status>
+  <storedDataSize>0.0</storedDataSize>
+  <dataToTransfer>0.0</dataToTransfer>
+  <storedData/>
+</edu.ucsc.cross.hse.model.storage.states.StorageState>  [310/719 mB]
+java.lang.NullPointerException
+	at edu.ucsc.cross.hse.model.storage.systems.StorageSystem.G(StorageSystem.java:67)
+	at edu.ucsc.cross.hse.model.storage.systems.StorageSystem.G(StorageSystem.java:1)
+	at edu.ucsc.cross.hse.core.modeling.SystemInteractor.g(SystemInteractor.java:63)
+	at edu.ucsc.cross.hse.core.processors.DynamicsEvaluator.applyDynamics(DynamicsEvaluator.java:56)
+	at edu.ucsc.cross.hse.core.processors.DynamicsEvaluator.evaluateDynamics(DynamicsEvaluator.java:33)
+	at edu.ucsc.cross.hse.core.monitors.DomainMonitor.executeJumps(DomainMonitor.java:127)
+	at edu.ucsc.cross.hse.core.monitors.DomainMonitor.resetState(DomainMonitor.java:115)
+	at org.apache.commons.math3.ode.events.EventState.reset(EventState.java:396)
+	at org.apache.commons.math3.ode.AbstractIntegrator.acceptStep(AbstractIntegrator.java:398)
+	at org.apache.commons.math3.ode.nonstiff.EmbeddedRungeKuttaIntegrator.integrate(EmbeddedRungeKuttaIntegrator.java:302)
+	at org.apache.commons.math3.ode.AbstractIntegrator.integrate(AbstractIntegrator.java:252)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.recursiveIntegrator(IntegratorSupport.java:115)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.recursiveIntegrator(IntegratorSupport.java:87)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.runIntegrator(IntegratorSupport.java:296)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.launchEnvironment(IntegratorSupport.java:66)
+	at edu.ucsc.cross.hse.core.processors.HSEngine.start(HSEngine.java:220)
+	at edu.ucsc.cross.hse.core.processors.HSEngine.run(HSEngine.java:183)
+	at edu.ucsc.cross.hse.core.environment.HSEnvironment.run(HSEnvironment.java:203)
+	at edu.ucsc.cross.hse.model.storage.control.consistency.ConsensusSystem.ionAndPlot(ConsensusSystem.java:71)
+	at edu.ucsc.cross.hse.model.storage.control.consistency.ConsensusSystem.main(ConsensusSystem.java:39)
+[12:53:40.774][error] Apply Dynamics Error on class edu.ucsc.cross.hse.model.storage.systems.StorageSystem with state: 
+<edu.ucsc.cross.hse.model.storage.states.StorageState>
+  <properties>
+    <index>10</index>
+    <name>StorageState</name>
+    <storeTrajectory>true</storeTrajectory>
+  </properties>
+  <status>OFF</status>
+  <storedDataSize>0.0</storedDataSize>
+  <dataToTransfer>0.0</dataToTransfer>
+  <storedData/>
+</edu.ucsc.cross.hse.model.storage.states.StorageState>  [310/719 mB]
+java.lang.NullPointerException
+	at edu.ucsc.cross.hse.model.storage.systems.StorageSystem.G(StorageSystem.java:67)
+	at edu.ucsc.cross.hse.model.storage.systems.StorageSystem.G(StorageSystem.java:1)
+	at edu.ucsc.cross.hse.core.modeling.SystemInteractor.g(SystemInteractor.java:63)
+	at edu.ucsc.cross.hse.core.processors.DynamicsEvaluator.applyDynamics(DynamicsEvaluator.java:56)
+	at edu.ucsc.cross.hse.core.processors.DynamicsEvaluator.evaluateDynamics(DynamicsEvaluator.java:33)
+	at edu.ucsc.cross.hse.core.monitors.DomainMonitor.executeJumps(DomainMonitor.java:127)
+	at edu.ucsc.cross.hse.core.monitors.DomainMonitor.resetState(DomainMonitor.java:115)
+	at org.apache.commons.math3.ode.events.EventState.reset(EventState.java:396)
+	at org.apache.commons.math3.ode.AbstractIntegrator.acceptStep(AbstractIntegrator.java:398)
+	at org.apache.commons.math3.ode.nonstiff.EmbeddedRungeKuttaIntegrator.integrate(EmbeddedRungeKuttaIntegrator.java:302)
+	at org.apache.commons.math3.ode.AbstractIntegrator.integrate(AbstractIntegrator.java:252)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.recursiveIntegrator(IntegratorSupport.java:115)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.recursiveIntegrator(IntegratorSupport.java:87)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.runIntegrator(IntegratorSupport.java:296)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.launchEnvironment(IntegratorSupport.java:66)
+	at edu.ucsc.cross.hse.core.processors.HSEngine.start(HSEngine.java:220)
+	at edu.ucsc.cross.hse.core.processors.HSEngine.run(HSEngine.java:183)
+	at edu.ucsc.cross.hse.core.environment.HSEnvironment.run(HSEnvironment.java:203)
+	at edu.ucsc.cross.hse.model.storage.control.consistency.ConsensusSystem.ionAndPlot(ConsensusSystem.java:71)
+	at edu.ucsc.cross.hse.model.storage.control.consistency.ConsensusSystem.main(ConsensusSystem.java:39)
+[12:53:40.776][error] Apply Dynamics Error on class edu.ucsc.cross.hse.model.storage.systems.StorageSystem with state: 
+<edu.ucsc.cross.hse.model.storage.states.StorageState>
+  <properties>
+    <index>14</index>
+    <name>StorageState</name>
+    <storeTrajectory>true</storeTrajectory>
+  </properties>
+  <status>OFF</status>
+  <storedDataSize>0.0</storedDataSize>
+  <dataToTransfer>0.0</dataToTransfer>
+  <storedData/>
+</edu.ucsc.cross.hse.model.storage.states.StorageState>  [321/719 mB]
+java.lang.NullPointerException
+	at edu.ucsc.cross.hse.model.storage.systems.StorageSystem.G(StorageSystem.java:67)
+	at edu.ucsc.cross.hse.model.storage.systems.StorageSystem.G(StorageSystem.java:1)
+	at edu.ucsc.cross.hse.core.modeling.SystemInteractor.g(SystemInteractor.java:63)
+	at edu.ucsc.cross.hse.core.processors.DynamicsEvaluator.applyDynamics(DynamicsEvaluator.java:56)
+	at edu.ucsc.cross.hse.core.processors.DynamicsEvaluator.evaluateDynamics(DynamicsEvaluator.java:33)
+	at edu.ucsc.cross.hse.core.monitors.DomainMonitor.executeJumps(DomainMonitor.java:127)
+	at edu.ucsc.cross.hse.core.monitors.DomainMonitor.resetState(DomainMonitor.java:115)
+	at org.apache.commons.math3.ode.events.EventState.reset(EventState.java:396)
+	at org.apache.commons.math3.ode.AbstractIntegrator.acceptStep(AbstractIntegrator.java:398)
+	at org.apache.commons.math3.ode.nonstiff.EmbeddedRungeKuttaIntegrator.integrate(EmbeddedRungeKuttaIntegrator.java:302)
+	at org.apache.commons.math3.ode.AbstractIntegrator.integrate(AbstractIntegrator.java:252)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.recursiveIntegrator(IntegratorSupport.java:115)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.recursiveIntegrator(IntegratorSupport.java:87)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.runIntegrator(IntegratorSupport.java:296)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.launchEnvironment(IntegratorSupport.java:66)
+	at edu.ucsc.cross.hse.core.processors.HSEngine.start(HSEngine.java:220)
+	at edu.ucsc.cross.hse.core.processors.HSEngine.run(HSEngine.java:183)
+	at edu.ucsc.cross.hse.core.environment.HSEnvironment.run(HSEnvironment.java:203)
+	at edu.ucsc.cross.hse.model.storage.control.consistency.ConsensusSystem.ionAndPlot(ConsensusSystem.java:71)
+	at edu.ucsc.cross.hse.model.storage.control.consistency.ConsensusSystem.main(ConsensusSystem.java:39)
+[12:53:40.778][error] Apply Dynamics Error on class edu.ucsc.cross.hse.model.storage.systems.StorageSystem with state: 
+<edu.ucsc.cross.hse.model.storage.states.StorageState>
+  <properties>
+    <index>6</index>
+    <name>StorageState</name>
+    <storeTrajectory>true</storeTrajectory>
+  </properties>
+  <status>OFF</status>
+  <storedDataSize>0.0</storedDataSize>
+  <dataToTransfer>0.0</dataToTransfer>
+  <storedData/>
+</edu.ucsc.cross.hse.model.storage.states.StorageState>  [321/719 mB]
+java.lang.NullPointerException
+	at edu.ucsc.cross.hse.model.storage.systems.StorageSystem.G(StorageSystem.java:67)
+	at edu.ucsc.cross.hse.model.storage.systems.StorageSystem.G(StorageSystem.java:1)
+	at edu.ucsc.cross.hse.core.modeling.SystemInteractor.g(SystemInteractor.java:63)
+	at edu.ucsc.cross.hse.core.processors.DynamicsEvaluator.applyDynamics(DynamicsEvaluator.java:56)
+	at edu.ucsc.cross.hse.core.processors.DynamicsEvaluator.evaluateDynamics(DynamicsEvaluator.java:33)
+	at edu.ucsc.cross.hse.core.monitors.DomainMonitor.executeJumps(DomainMonitor.java:127)
+	at edu.ucsc.cross.hse.core.monitors.DomainMonitor.resetState(DomainMonitor.java:115)
+	at org.apache.commons.math3.ode.events.EventState.reset(EventState.java:396)
+	at org.apache.commons.math3.ode.AbstractIntegrator.acceptStep(AbstractIntegrator.java:398)
+	at org.apache.commons.math3.ode.nonstiff.EmbeddedRungeKuttaIntegrator.integrate(EmbeddedRungeKuttaIntegrator.java:302)
+	at org.apache.commons.math3.ode.AbstractIntegrator.integrate(AbstractIntegrator.java:252)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.recursiveIntegrator(IntegratorSupport.java:115)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.recursiveIntegrator(IntegratorSupport.java:87)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.runIntegrator(IntegratorSupport.java:296)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.launchEnvironment(IntegratorSupport.java:66)
+	at edu.ucsc.cross.hse.core.processors.HSEngine.start(HSEngine.java:220)
+	at edu.ucsc.cross.hse.core.processors.HSEngine.run(HSEngine.java:183)
+	at edu.ucsc.cross.hse.core.environment.HSEnvironment.run(HSEnvironment.java:203)
+	at edu.ucsc.cross.hse.model.storage.control.consistency.ConsensusSystem.ionAndPlot(ConsensusSystem.java:71)
+	at edu.ucsc.cross.hse.model.storage.control.consistency.ConsensusSystem.main(ConsensusSystem.java:39)
+[12:53:40.780][error] Apply Dynamics Error on class edu.ucsc.cross.hse.model.storage.systems.StorageSystem with state: 
+<edu.ucsc.cross.hse.model.storage.states.StorageState>
+  <properties>
+    <index>4</index>
+    <name>StorageState</name>
+    <storeTrajectory>true</storeTrajectory>
+  </properties>
+  <status>OFF</status>
+  <storedDataSize>0.0</storedDataSize>
+  <dataToTransfer>0.0</dataToTransfer>
+  <storedData/>
+</edu.ucsc.cross.hse.model.storage.states.StorageState>  [321/719 mB]
+java.lang.NullPointerException
+	at edu.ucsc.cross.hse.model.storage.systems.StorageSystem.G(StorageSystem.java:67)
+	at edu.ucsc.cross.hse.model.storage.systems.StorageSystem.G(StorageSystem.java:1)
+	at edu.ucsc.cross.hse.core.modeling.SystemInteractor.g(SystemInteractor.java:63)
+	at edu.ucsc.cross.hse.core.processors.DynamicsEvaluator.applyDynamics(DynamicsEvaluator.java:56)
+	at edu.ucsc.cross.hse.core.processors.DynamicsEvaluator.evaluateDynamics(DynamicsEvaluator.java:33)
+	at edu.ucsc.cross.hse.core.monitors.DomainMonitor.executeJumps(DomainMonitor.java:127)
+	at edu.ucsc.cross.hse.core.monitors.DomainMonitor.resetState(DomainMonitor.java:115)
+	at org.apache.commons.math3.ode.events.EventState.reset(EventState.java:396)
+	at org.apache.commons.math3.ode.AbstractIntegrator.acceptStep(AbstractIntegrator.java:398)
+	at org.apache.commons.math3.ode.nonstiff.EmbeddedRungeKuttaIntegrator.integrate(EmbeddedRungeKuttaIntegrator.java:302)
+	at org.apache.commons.math3.ode.AbstractIntegrator.integrate(AbstractIntegrator.java:252)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.recursiveIntegrator(IntegratorSupport.java:115)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.recursiveIntegrator(IntegratorSupport.java:87)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.runIntegrator(IntegratorSupport.java:296)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.launchEnvironment(IntegratorSupport.java:66)
+	at edu.ucsc.cross.hse.core.processors.HSEngine.start(HSEngine.java:220)
+	at edu.ucsc.cross.hse.core.processors.HSEngine.run(HSEngine.java:183)
+	at edu.ucsc.cross.hse.core.environment.HSEnvironment.run(HSEnvironment.java:203)
+	at edu.ucsc.cross.hse.model.storage.control.consistency.ConsensusSystem.ionAndPlot(ConsensusSystem.java:71)
+	at edu.ucsc.cross.hse.model.storage.control.consistency.ConsensusSystem.main(ConsensusSystem.java:39)
+[12:53:40.782][error] Apply Dynamics Error on class edu.ucsc.cross.hse.model.storage.systems.StorageSystem with state: 
+<edu.ucsc.cross.hse.model.storage.states.StorageState>
+  <properties>
+    <index>13</index>
+    <name>StorageState</name>
+    <storeTrajectory>true</storeTrajectory>
+  </properties>
+  <status>OFF</status>
+  <storedDataSize>0.0</storedDataSize>
+  <dataToTransfer>0.0</dataToTransfer>
+  <storedData/>
+</edu.ucsc.cross.hse.model.storage.states.StorageState>  [321/719 mB]
+java.lang.NullPointerException
+	at edu.ucsc.cross.hse.model.storage.systems.StorageSystem.G(StorageSystem.java:67)
+	at edu.ucsc.cross.hse.model.storage.systems.StorageSystem.G(StorageSystem.java:1)
+	at edu.ucsc.cross.hse.core.modeling.SystemInteractor.g(SystemInteractor.java:63)
+	at edu.ucsc.cross.hse.core.processors.DynamicsEvaluator.applyDynamics(DynamicsEvaluator.java:56)
+	at edu.ucsc.cross.hse.core.processors.DynamicsEvaluator.evaluateDynamics(DynamicsEvaluator.java:33)
+	at edu.ucsc.cross.hse.core.monitors.DomainMonitor.executeJumps(DomainMonitor.java:127)
+	at edu.ucsc.cross.hse.core.monitors.DomainMonitor.resetState(DomainMonitor.java:115)
+	at org.apache.commons.math3.ode.events.EventState.reset(EventState.java:396)
+	at org.apache.commons.math3.ode.AbstractIntegrator.acceptStep(AbstractIntegrator.java:398)
+	at org.apache.commons.math3.ode.nonstiff.EmbeddedRungeKuttaIntegrator.integrate(EmbeddedRungeKuttaIntegrator.java:302)
+	at org.apache.commons.math3.ode.AbstractIntegrator.integrate(AbstractIntegrator.java:252)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.recursiveIntegrator(IntegratorSupport.java:115)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.recursiveIntegrator(IntegratorSupport.java:87)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.runIntegrator(IntegratorSupport.java:296)
+	at edu.ucsc.cross.hse.core.monitors.IntegratorSupport.launchEnvironment(IntegratorSupport.java:66)
+	at edu.ucsc.cross.hse.core.processors.HSEngine.start(HSEngine.java:220)
+	at edu.ucsc.cross.hse.core.processors.HSEngine.run(HSEngine.java:183)
+	at edu.ucsc.cross.hse.core.environment.HSEnvironment.run(HSEnvironment.java:203)
+	at edu.ucsc.cross.hse.model.storage.control.consistency.ConsensusSystem.ionAndPlot(ConsensusSystem.java:71)
+	at edu.ucsc.cross.hse.model.storage.control.consistency.ConsensusSystem.main(ConsensusSystem.java:39)

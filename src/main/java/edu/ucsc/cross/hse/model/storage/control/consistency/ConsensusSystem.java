@@ -1,22 +1,23 @@
 package edu.ucsc.cross.hse.model.storage.control.consistency;
 
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.data.xy.XYDataset;
+
+import edu.ucsc.cross.hse.core.chart.ChartType;
+import edu.ucsc.cross.hse.core.chart.ChartUtils;
 import edu.ucsc.cross.hse.core.environment.EnvironmentSettings;
 import edu.ucsc.cross.hse.core.environment.ExecutionParameters;
 import edu.ucsc.cross.hse.core.environment.HSEnvironment;
+import edu.ucsc.cross.hse.core.figure.Figure;
 import edu.ucsc.cross.hse.core.logging.Console;
 import edu.ucsc.cross.hse.core.modeling.SystemSet;
+import edu.ucsc.cross.hse.core.trajectory.HybridTime;
+import edu.ucsc.cross.hse.core.trajectory.TrajectorySet;
 import edu.ucsc.cross.hse.core.variable.RandomVariable;
 import edu.ucsc.cross.hse.lib.network.Network;
 import edu.ucsc.cross.hse.lib.network.Node;
-import edu.ucsc.cross.hse.lib.network.framework.AgentSystem;
-import edu.ucsc.cross.hse.lib.network.framework.SimulatedAgentParameters;
-import edu.ucsc.cross.hse.lib.network.framework.SpammerState;
 import edu.ucsc.cross.hse.model.network.ideal.IdealNetwork;
-import edu.ucsc.cross.hse.model.node.simple.NetworkNode;
-import edu.ucsc.cross.hse.model.storage.control.StorageController;
-import edu.ucsc.cross.hse.model.storage.parameters.StorageParameters;
-import edu.ucsc.cross.hse.model.storage.states.StorageState;
-import edu.ucsc.cross.hse.model.storage.systems.StorageSystem;
 
 public class ConsensusSystem
 {
@@ -52,7 +53,7 @@ public class ConsensusSystem
 		IdealNetwork net = new IdealNetwork();
 		//DelayedNetworkSystem net = new DelayedNetworkSystem(new DelayedNetworkState(),
 		//	new DelayedNetworkParameters(.5, 1.5);
-		SystemSet agents = createAgents(net, bs, 15, 1.2, 1.5, 50, 100);
+		SystemSet agents = createAgents(net, bs, 25, 2, 7, 15, 21);
 		connectRandomly(net, 3, 8);
 		connectStorage(bs);
 		env.getSystems().add(agents);
@@ -60,12 +61,12 @@ public class ConsensusSystem
 		env.getSystems().add(bs);
 		env.getSystems().add(netb);
 		env.run();
-		//nodeChart2(env.run()).display();
+		nodeChart2(env.run()).display();
 		//storageChart(env.getTrajectories()).display();
 
 		//nodeChart2(env.run()).display();
-		// snodeChart3(env.run()).display();
-		//storageChart(env.getTrajectories());
+		//nodeChart3(env.run()).display();
+		storageChart(env.getTrajectories()).display();
 
 		//	System.out.println(XMLParser.serializeObject(s));
 
@@ -75,20 +76,20 @@ public class ConsensusSystem
 	double max_send, double min_size, double max_size)
 	{
 		SystemSet set = new SystemSet();
-		for (int i = 0; i < quantity; i++)
-		{
-			StorageParameters storParam = new StorageParameters(10000, 10000);
-			NetworkNode storNode = new NetworkNode(net.distributedNetwork);
-			net.distributedNetwork.getTopology().addVertex(storNode);
-			ParamConsistencyController con = new ParamConsistencyController(net, storNode);
-			net.controllers.add(con);
-			StorageSystem store = new StorageSystem(new StorageState(), storParam, (StorageController) con);
-			AgentSystem agent = new AgentSystem(new SpammerState(0.0),
-			new SimulatedAgentParameters(min_send, max_send, min_size, max_size), new NetworkNode(internet),
-			con.consQueue);
-			internet.getTopology().addVertex(agent.localNode);
-			set.add(agent, store, con);
-		}
+		//		for (int i = 0; i < quantity; i++)
+		//		{
+		//			StorageParameters storParam = new StorageParameters(200, 200);
+		//			NetworkNode storNode = new NetworkNode(net.distributedNetwork);
+		//			net.distributedNetwork.getTopology().addVertex(storNode);
+		//			ParamConsistencyController con = new ParamConsistencyController(net, storNode);
+		//			net.controllers.add(con);
+		//			StorageSystem store = new StorageSystem(new StorageState(), storParam, (StorageController) con);
+		//			AgentSystem agent = new AgentSystem(new SpammerState(0.0),
+		//			new SimulatedAgentParameters(min_send, max_send, min_size, max_size), new NetworkNode(internet),
+		//			con.consQueue);
+		//			internet.getTopology().addVertex(agent.localNode);
+		//			set.add(agent, store, con);
+		//		}
 		return set;
 	}
 
@@ -141,5 +142,63 @@ public class ConsensusSystem
 				}
 			}
 		}
+	}
+
+	public static Figure storageChart(TrajectorySet solution)
+	{
+		XYDataset dataset = ChartUtils.createXYDataset(solution, HybridTime.TIME, "storedDataSize");
+		JFreeChart plot = ChartUtils.createXYChart(solution, dataset, null, null, ChartType.LINE);
+		ChartPanel panel = ChartUtils.createPanel(plot);
+		XYDataset dataset2 = ChartUtils.createXYDataset(solution, HybridTime.TIME, "dataToTransfer");
+		JFreeChart plot2 = ChartUtils.createXYChart(solution, dataset2, null, null, ChartType.LINE);
+		ChartPanel panel2 = ChartUtils.createPanel(plot2);
+		ChartUtils.configureLabels(panel, "Time (sec)", "storedDataSize", null, false);
+		ChartUtils.configureLabels(panel2, "Time (sec)", "dataToTransfer", null, false);
+
+		Figure figure = new Figure(1000, 500);
+		figure.addComponent(0, 0, panel);
+		figure.addComponent(1, 0, panel2);
+		return figure;
+	}
+
+	//	å
+	public static Figure nodeChart2(TrajectorySet solution)
+	{
+		XYDataset dataset = ChartUtils.createXYDataset(solution, HybridTime.TIME, "sizeSent");
+		JFreeChart plot = ChartUtils.createXYChart(solution, dataset, null, null, ChartType.LINE);
+		ChartPanel panel = ChartUtils.createPanel(plot);
+		XYDataset dataset2 = ChartUtils.createXYDataset(solution, HybridTime.TIME, "sizeReceived");
+		JFreeChart plot2 = ChartUtils.createXYChart(solution, dataset2, null, null, ChartType.LINE);
+		ChartPanel panel2 = ChartUtils.createPanel(plot2);
+		ChartUtils.configureLabels(panel, "Time (sec)", "Sent Size", null, false);
+		ChartUtils.configureLabels(panel2, "Time (sec)", "Received Size", null, false);
+
+		Figure figure = new Figure(1000, 500);
+		figure.addComponent(0, 0, panel);
+		figure.addComponent(1, 0, panel2);
+		return figure;
+	}
+
+	public static Figure nodeChart3(TrajectorySet solution, String title)
+	{
+		XYDataset dataset = ChartUtils.createXYDataset(solution, HybridTime.TIME, "sizeSent");
+		JFreeChart plot = ChartUtils.createXYChart(solution, dataset, null, null, ChartType.LINE);
+		ChartPanel panel = ChartUtils.createPanel(plot);
+		XYDataset dataset2 = ChartUtils.createXYDataset(solution, HybridTime.TIME, "sizeReceived");
+		JFreeChart plot2 = ChartUtils.createXYChart(solution, dataset2, null, null, ChartType.LINE);
+		ChartPanel panel2 = ChartUtils.createPanel(plot2);
+		XYDataset dataset3 = ChartUtils.createXYDataset(solution, HybridTime.TIME, "dataToTransfer");
+		JFreeChart plot3 = ChartUtils.createXYChart(solution, dataset3, null, null, ChartType.LINE);
+		ChartPanel panel3 = ChartUtils.createPanel(plot3);
+		ChartUtils.configureLabels(panel, "Time (sec)", "Sent Size", null, false);
+		ChartUtils.configureLabels(panel2, "Time (sec)", "Received Size", null, false);
+		ChartUtils.configureLabels(panel3, "Time (sec)", "Data to Write", null, false);
+
+		Figure figure = new Figure(1000, 1500);
+		figure.addComponent(0, 0, panel);
+		figure.addComponent(0, 1, panel2);
+		figure.addComponent(0, 2, panel3);
+		figure.getTitle().setText(title);
+		return figure;
 	}
 }

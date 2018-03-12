@@ -1,20 +1,20 @@
 package edu.ucsc.cross.hse.model.storage.control;
 
 import edu.ucsc.cross.hse.model.data.Data;
-import edu.ucsc.cross.hse.model.storage.StorageInterface;
+import edu.ucsc.cross.hse.model.storage.StorageDevice;
 import edu.ucsc.cross.hse.model.storage.specification.StorageDeviceStatus;
 
 public interface StorageController
 {
 
-	public StorageInterface getInterface();
+	public StorageDevice getDevice();
 
-	public boolean isHardwareActionPending();
+	public boolean isRequestPending();
 
-	public StorageDeviceStatus getIntendedHardwareStatus();
+	public StorageDeviceStatus getHardwareStatus();
 
-	public Data getNextDataTransfer();
+	public Data getNextRequest();
 
-	public void adknowledgeCompletedTransfer(Data done);
+	public void adknowledgeCompletedRequest(Data done);
 
 }

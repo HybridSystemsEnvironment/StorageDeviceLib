@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import edu.ucsc.cross.hse.core.modeling.HybridSystem;
 import edu.ucsc.cross.hse.lib.network.Network;
 import edu.ucsc.cross.hse.lib.network.Node;
-import edu.ucsc.cross.hse.model.storage.StorageInterface;
+import edu.ucsc.cross.hse.model.storage.StorageDevice;
 import edu.ucsc.cross.hse.model.storage.states.StorageQueue;
 
 public class BroadcastSystem extends HybridSystem<BroadcastState>
@@ -25,7 +25,7 @@ public class BroadcastSystem extends HybridSystem<BroadcastState>
 		controllers = new ArrayList<ParamConsistencyController>();
 	}
 
-	public StorageInterface getInterface()
+	public StorageDevice getInterface()
 	{
 		return storageQueue;
 	}
@@ -83,7 +83,7 @@ public class BroadcastSystem extends HybridSystem<BroadcastState>
 		boolean updates = false;
 		for (ParamConsistencyController c : controllers)
 		{
-			updates = updates || c.isHardwareActionPending();// .updates || n.getReceivingBuffer().size() > 0 || n.getTransmittingBuffer().size() > 0;
+			updates = updates || c.consQueue.localUpdateQueue.size() > 0.0;// .updates || n.getReceivingBuffer().size() > 0 || n.getTransmittingBuffer().size() > 0;
 		}
 		return updates;
 	}

@@ -2,7 +2,7 @@ package edu.ucsc.cross.hse.model.storage.systems;
 
 import edu.ucsc.cross.hse.core.modeling.HybridSystem;
 import edu.ucsc.cross.hse.model.data.Data;
-import edu.ucsc.cross.hse.model.storage.StorageInterface;
+import edu.ucsc.cross.hse.model.storage.StorageDevice;
 import edu.ucsc.cross.hse.model.storage.control.StorageController;
 import edu.ucsc.cross.hse.model.storage.parameters.StorageParameters;
 import edu.ucsc.cross.hse.model.storage.specification.StorageDeviceStatus;
@@ -13,9 +13,9 @@ public class StorageSystem extends HybridSystem<StorageState>
 
 	StorageController controller;
 
-	public StorageInterface getStorage()
+	public StorageDevice getStorage()
 	{
-		return controller.getInterface();
+		return controller.getDevice();
 	}
 
 	StorageParameters params;
@@ -31,14 +31,14 @@ public class StorageSystem extends HybridSystem<StorageState>
 	@Override
 	public boolean C(StorageState arg0)
 	{
-		return (arg0.status.equals(StorageDeviceStatus.READ) || arg0.status.equals(StorageDeviceStatus.WRITE))
-		&& pending != null;
+		return ((arg0.status.equals(StorageDeviceStatus.READ) || arg0.status.equals(StorageDeviceStatus.WRITE)))
+		&& (arg0.dataToTransfer >= 0.0);
 	}
 
 	@Override
 	public boolean D(StorageState arg0)
 	{
-		return controller.isHardwareActionPending() || (arg0.dataToTransfer <= 0.0 && C(arg0));
+		return (pending == null && controller.isRequestPending()) || (arg0.dataToTransfer <= 0 && pending != null);//|| (arg0.dataToTransfer < -0.00001);
 
 	}
 
@@ -51,26 +51,26 @@ public class StorageSystem extends HybridSystem<StorageState>
 	@Override
 	public void G(StorageState arg0, StorageState arg1)
 	{
-		if (pending != null && arg1.dataToTransfer <= 0)
+		if ((pending != null && arg0.dataToTransfer <= 0))//|| arg0.dataToTransfer < 0.0)
 		{
 			arg1.storedData.put(pending.getId(), pending.copy());
-			controller.adknowledgeCompletedTransfer(pending);
-			arg1.storedDataSize = getStoredDataSize(arg1);
+			arg1.storedDataSize += pending.getSize();
+			controller.adknowledgeCompletedRequest(pending);
 			pending = null;
 
 		}
-		if (controller.isHardwareActionPending())
+		if (controller.isRequestPending() && pending == null)
 		{
-			arg1.status = controller.getIntendedHardwareStatus();
-			arg1.dataToTransfer = controller.getNextDataTransfer().getSize();
-			pending = controller.getNextDataTransfer();
+			pending = controller.getNextRequest();
+			arg1.dataToTransfer = pending.getSize();
+			arg1.status = controller.getHardwareStatus();
 		}
 	}
 
 	public static double getStoredDataSize(StorageState x)
 	{
 		double stored = 0.0;
-		System.out.println(x.storedData.size());
+		System.out.println("jjjjj" + x.storedData.size());
 		for (Data p : x.storedData.values())
 		{
 			stored += p.getSize();

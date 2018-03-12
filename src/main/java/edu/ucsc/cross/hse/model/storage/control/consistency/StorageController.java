@@ -1,13 +1,13 @@
 package edu.ucsc.cross.hse.model.storage.control.consistency;
 
 import edu.ucsc.cross.hse.model.data.Data;
-import edu.ucsc.cross.hse.model.storage.StorageInterface;
+import edu.ucsc.cross.hse.model.storage.StorageDevice;
 import edu.ucsc.cross.hse.model.storage.specification.StorageDeviceStatus;
 
 public interface StorageController
 {
 
-	public StorageInterface getInterface();
+	public StorageDevice getInterface();
 
 	public boolean isHardwareActionPending();
 
