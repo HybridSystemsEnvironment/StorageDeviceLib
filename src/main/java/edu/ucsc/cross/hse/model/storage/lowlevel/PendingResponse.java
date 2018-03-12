@@ -17,7 +17,7 @@ public class PendingResponse
 
 	public PendingResponse()
 	{
-		content = null;
+		content = "ssssss";
 	}
 
 	public void writeToPath(Object object)
