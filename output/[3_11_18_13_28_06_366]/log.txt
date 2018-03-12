@@ -1,4 +1,0 @@
-[13:28:53.790][info] Environment started  [571/1697 mB]
-[13:28:53.792][info] status: 0.00%  complete : sim time = 0.00 : jumps = 0  [584/1697 mB]
-[13:28:58.868][info] monitor : 0.46% complete : sim time = 0.16 : jumps = 4589  [319/1656 mB]
-[13:29:03.923][info] monitor : 0.59% complete : sim time = 0.21 : jumps = 11018  [353/1656 mB]

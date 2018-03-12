@@ -3,8 +3,6 @@ package edu.ucsc.cross.hse.model.storage.lowlevel;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.carrotsearch.sizeof.RamUsageEstimator;
-
 import edu.ucsc.cross.hse.core.environment.EnvironmentSettings;
 import edu.ucsc.cross.hse.core.environment.ExecutionParameters;
 import edu.ucsc.cross.hse.core.environment.HSEnvironment;
@@ -18,34 +16,26 @@ public class BaseStorageModel extends HybridSystem<BaseStorageState> implements 
 {
 
 	StorageParameters storageParams;
-	GeneralQueue writeQueue;
-	GeneralQueue readQueue;
-	HashMap<PendingResponse, Object> pendingResponses;
-	ArrayList<PendingResponse> orderedResponses;
+	ArrayList<TaskData> tasks;
+	TaskData currentTask;
 	HashMap<Object, Object> storedContent;
-	public PendingResponse pendingTask;
 
-	public BaseStorageModel(BaseStorageState state, StorageParameters storeage_parameters,
-	QueueProperties write_queue_properties, QueueProperties read_queue_properties)
+	public BaseStorageModel(BaseStorageState state, StorageParameters storeage_parameters)
 	{
 		super(state);
 		storageParams = storeage_parameters;
-		writeQueue = new GeneralQueue(write_queue_properties);
-		readQueue = new GeneralQueue(read_queue_properties);
-		pendingResponses = new HashMap<PendingResponse, Object>();
+		tasks = new ArrayList<TaskData>();
 		storedContent = new HashMap<Object, Object>();
-		orderedResponses = new ArrayList<PendingResponse>();
 	}
 
 	@Override
 	public PendingResponse requestWrite(Object path, Object content)
 	{
-		PendingResponse response = screenRequest(writeQueue);
+		PendingResponse response = screenRequest();
 		if (response != null)
 		{
-			orderedResponses.add(response);
-			pendingResponses.put(response, path);
-			writeQueue.addContent(path, content);
+			TaskData task = new TaskData(response, path, content, StorageInstruction.STORE);
+			this.tasks.add(task);
 		}
 		return response;
 	}
@@ -53,11 +43,11 @@ public class BaseStorageModel extends HybridSystem<BaseStorageState> implements 
 	@Override
 	public PendingResponse requestRead(Object path)
 	{
-		PendingResponse response = screenRequest(readQueue);
+		PendingResponse response = screenRequest();
 		if (response != null)
 		{
-			pendingResponses.put(response, path);
-			readQueue.addContent(path, null);
+			TaskData task = new TaskData(response, path, null, StorageInstruction.LOAD);
+			this.tasks.add(task);
 		}
 		return response;
 	}
@@ -80,29 +70,28 @@ public class BaseStorageModel extends HybridSystem<BaseStorageState> implements 
 	{
 		if (cleanupTask(arg0))
 		{
+			arg1.totalDataTransferred = (double) currentTask.value;
 			completeWriteProc();
 		} else
 		{
 			assignJob(arg1);
-
 		}
 	}
 
 	public void cleanLastJob()
 	{
-		if (pendingTask != null)
+		if (currentTask != null)
 		{
-			pendingTask.writeToPath(true);
-			orderedResponses.remove(pendingTask);
-			pendingResponses.remove(pendingTask);
-			pendingTask = null;
+			currentTask.callLink.writeToPath(true);
+			tasks.remove(currentTask);
+			currentTask = null;
 		}
 	}
 
-	public PendingResponse screenRequest(GeneralQueue queue)
+	public PendingResponse screenRequest()
 	{
 		PendingResponse maybe = null;
-		if (!queue.isFull())
+		//if (!(tasks.size() < this.storageParams.queueSize))
 		{
 			maybe = new PendingResponse();
 		}
@@ -113,8 +102,8 @@ public class BaseStorageModel extends HybridSystem<BaseStorageState> implements 
 	{
 		try
 		{
-			pendingTask = orderedResponses.get(0);
-			arg1.pendingDataTransfer = RamUsageEstimator.sizeOfAll(pendingTask);
+			currentTask = tasks.get(0);
+			arg1.pendingDataTransfer = (double) currentTask.value;
 		} catch (Exception e)
 		{
 			System.out.println("nojobs");
@@ -143,13 +132,7 @@ public class BaseStorageModel extends HybridSystem<BaseStorageState> implements 
 		ExecutionParameters parameters = new ExecutionParameters(35.0, 53320, .5);
 		// initialize the node parameters
 
-		BaseStorageModel m = new BaseStorageModel(new BaseStorageState(), new StorageParameters(100, 100),
-		new QueueProperties(130), new QueueProperties(130));
-		m.requestWrite("daffafs", "DSSDSdDSD");
-		m.requestWrite("dafsfafs", "DSsSDSdDSD");
-		m.requestWrite("dafsfafs", "DSSDSdDSD");
-		m.requestWrite("dafsfafs", "DSSDSdDSD");
-		m.requestWrite("daffafs", "DSSDSdDSD");
+		BaseStorageModel m = new BaseStorageModel(new BaseStorageState(), new StorageParameters(100, 100, 30));
 
 		systems.add(m);
 		HSEnvironment env2 = HSEnvironment.create(systems, parameters, settings);
@@ -161,22 +144,19 @@ public class BaseStorageModel extends HybridSystem<BaseStorageState> implements 
 	@Override
 	public boolean D(BaseStorageState arg0)
 	{
-		boolean tasksQueued = orderedResponses.size() > 0;
-		boolean taskInProgress = pendingTask == null;
+
 		boolean taskCompleted = arg0.pendingDataTransfer <= 0.0;
-
-		boolean assignNewTask = tasksQueued && taskInProgress;
-		boolean finalizeCurrentTask = taskCompleted && !taskInProgress;
-
+		boolean taskInProgress = currentTask != null;
+		boolean tasksPending = tasks.size() > 1;
+		boolean finalizeCurrentTask = taskCompleted && taskInProgress;
+		boolean assignNewTask = !taskInProgress && tasksPending;
 		return assignNewTask || finalizeCurrentTask;
 	}
 
 	public boolean cleanupTask(BaseStorageState arg0)
 	{
-
-		boolean taskInProgress = pendingTask != null;
+		boolean taskInProgress = currentTask != null;
 		boolean taskCompleted = arg0.pendingDataTransfer <= 0.0;
-		boolean finalizeCurrentTask = taskCompleted && !taskInProgress;
 		return taskCompleted && taskInProgress;
 	}
 
@@ -184,10 +164,10 @@ public class BaseStorageModel extends HybridSystem<BaseStorageState> implements 
 	public StorageDeviceStatus getStatus()
 	{
 		StorageDeviceStatus stat = StorageDeviceStatus.IDLE;
-		if (this.writeQueue.getContent().containsKey(pendingResponses.get(pendingTask)))
+		if (currentTask.instruction.equals(StorageInstruction.STORE))
 		{
 			stat = StorageDeviceStatus.WRITE;
-		} else if (this.readQueue.getContent().containsKey(pendingResponses.get(pendingTask)))
+		} else if (currentTask.instruction.equals(StorageInstruction.LOAD))
 		{
 			stat = StorageDeviceStatus.READ;
 		}
@@ -196,11 +176,18 @@ public class BaseStorageModel extends HybridSystem<BaseStorageState> implements 
 
 	public void completeWriteProc()
 	{
-		Object var = pendingResponses.get(pendingTask);
-		Object val = writeQueue.getContent().get(var);
-		storedContent.put(var, val);
-		System.out.println("Stored " + var + " -> " + val);
+
+		storedContent.put(currentTask.variable, currentTask.value);
+		System.out.println("Stored " + currentTask.variable + " -> " + currentTask.value);
 		cleanLastJob();
+		tasks.remove(currentTask);
+	}
+
+	@Override
+	public boolean changeStatus(StorageDeviceStatus status)
+	{
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

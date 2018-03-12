@@ -17,16 +17,16 @@ import edu.ucsc.cross.hse.core.trajectory.TrajectorySet;
 import edu.ucsc.cross.hse.core.variable.RandomVariable;
 import edu.ucsc.cross.hse.lib.network.Network;
 import edu.ucsc.cross.hse.lib.network.Node;
-import edu.ucsc.cross.hse.lib.network.framework.AgentSystem;
-import edu.ucsc.cross.hse.lib.network.framework.SimulatedAgentParameters;
-import edu.ucsc.cross.hse.lib.network.framework.SpammerState;
 import edu.ucsc.cross.hse.model.network.ideal.IdealNetwork;
 import edu.ucsc.cross.hse.model.node.simple.NetworkNode;
+import edu.ucsc.cross.hse.model.storage.lowlevel.BaseStorageModel;
+import edu.ucsc.cross.hse.model.storage.lowlevel.BaseStorageState;
 import edu.ucsc.cross.hse.model.storage.parameters.StorageParameters;
-import edu.ucsc.cross.hse.model.storage.states.StorageState;
-import edu.ucsc.cross.hse.model.storage.systems.StorageSystem;
+import edu.ucsc.cross.hse.model.storage.user.SensorParameters;
+import edu.ucsc.cross.hse.model.storage.user.SensorState;
+import edu.ucsc.cross.hse.model.storage.user.SensorSystem;
 
-public class ConsensusSystem
+public class ConsensusSystemAv
 {
 
 	/*
@@ -48,26 +48,26 @@ public class ConsensusSystem
 		settings.odeMinimumStepSize = .00000005;
 		settings.eventHandlerMaximumCheckInterval = .00005;
 		// initialize the execution parameters 
-		ExecutionParameters parameters = new ExecutionParameters(35.0, 53320, .5);
+		ExecutionParameters parameters = new ExecutionParameters(35.0, 53320, .1);
 		// initialize the node parameters
 		IdealNetwork netb = new IdealNetwork();
 
-		BroadcastSystem bs = new BroadcastSystem(netb);
+		BroadcastSystemAv bs = new BroadcastSystemAv(netb);
 		// create environment
 		HSEnvironment env = HSEnvironment.create(systems, parameters, settings);
 		//BandwidthNetwork net = new BandwidthNetwork(new BandwidthNetworkState(),
-		//new BandwidthParameters(1000, BandwidthConfiguration.CONSTANT));
 		IdealNetwork net = new IdealNetwork();
+
+		//new BandwidthParameters(1000, BandwidthConfiguration.CONSTANT));
 		//DelayedNetworkSystem net = new DelayedNetworkSystem(new DelayedNetworkState(),
 		//	new DelayedNetworkParameters(.5, 1.5);
-		SystemSet agents = createAgents(net, bs, 5, 2, 7, 15, 21);
-		connectRandomly(net, 1, 2);
+		SystemSet agents = createAgents(net, bs, 22, 4.2, 7.7, 115, 211);
+		connectRandomly(net, 22, 22);
 		connectStorage(bs);
 		env.getSystems().add(agents);
-		env.getSystems().add(net);
 		env.getSystems().add(bs);
 		env.getSystems().add(netb);
-		env.run();
+		//env.run();
 		nodeChart2(env.run()).display();
 		//storageChart(env.getTrajectories()).display();
 
@@ -79,25 +79,25 @@ public class ConsensusSystem
 
 	}
 
-	public static SystemSet createAgents(Network internet, BroadcastSystem net, int quantity, double min_send,
+	public static SystemSet createAgents(Network net, BroadcastSystemAv internet, int quantity, double min_send,
 	double max_send, double min_size, double max_size)
 	{
 		SystemSet set = new SystemSet();
 		for (int i = 0; i < quantity; i++)
 		{
-			StorageParameters storParam = new StorageParameters(200, 200, 2222);
-			NetworkNode storNode = new NetworkNode(net.distributedNetwork);
-			net.distributedNetwork.getTopology().addVertex(storNode);
-			ParamConsistencyController con = new ParamConsistencyController(net, storNode);
-			net.controllers.add(con);
-			StorageSystem store = new StorageSystem(new StorageState(), storParam, con);
-			AgentSystem agent = new AgentSystem(new SpammerState(0.0),
-			new SimulatedAgentParameters(min_send, max_send, min_size, max_size), new NetworkNode(internet),
-			con.consQueue);
-			internet.getTopology().addVertex(agent.localNode);
-			set.add(agent, store, con);
+			StorageParameters storParam = new StorageParameters(120, 102, 5020022);
+
+			BaseStorageModel bss = new BaseStorageModel(new BaseStorageState(), storParam);
+			NetworkNode node = new NetworkNode(internet.distributedNetwork);
+			StorageConsistencyControl con = new StorageConsistencyControl(bss, internet, node);
+			internet.controllers.add(con);
+
+			SensorSystem s = new SensorSystem(new SensorState(), new SensorParameters(12.0, 3 * Math.random() + 2.0),
+			con);
+			set.add(bss, s, con);
 		}
 		return set;
+
 	}
 
 	public static void connectRandomly(Network net, int connections_per_min, int connections_per_max)
@@ -136,13 +136,12 @@ public class ConsensusSystem
 		}
 	}
 
-	public static void connectStorage(BroadcastSystem net)
+	public static void connectStorage(BroadcastSystemAv net)
 	{
 		for (Node conn : net.distributedNetwork.getTopology().vertexSet())
 		{
 			for (Node conn2 : net.distributedNetwork.getTopology().vertexSet())
 			{
-
 				if (!conn.equals(conn2))
 				{
 					net.distributedNetwork.getTopology().addEdge(conn, conn2);
@@ -153,14 +152,14 @@ public class ConsensusSystem
 
 	public static Figure storageChart(TrajectorySet solution)
 	{
-		XYDataset dataset = ChartUtils.createXYDataset(solution, HybridTime.TIME, "storedDataSize");
+		XYDataset dataset = ChartUtils.createXYDataset(solution, HybridTime.TIME, "dataGenerated");
 		JFreeChart plot = ChartUtils.createXYChart(solution, dataset, null, null, ChartType.LINE);
 		ChartPanel panel = ChartUtils.createPanel(plot);
-		XYDataset dataset2 = ChartUtils.createXYDataset(solution, HybridTime.TIME, "dataToTransfer");
+		XYDataset dataset2 = ChartUtils.createXYDataset(solution, HybridTime.TIME, "timeToNextData");
 		JFreeChart plot2 = ChartUtils.createXYChart(solution, dataset2, null, null, ChartType.LINE);
 		ChartPanel panel2 = ChartUtils.createPanel(plot2);
-		ChartUtils.configureLabels(panel, "Time (sec)", "storedDataSize", null, false);
-		ChartUtils.configureLabels(panel2, "Time (sec)", "dataToTransfer", null, false);
+		ChartUtils.configureLabels(panel, "Time (sec)", "dataGenerated", null, false);
+		ChartUtils.configureLabels(panel2, "Time (sec)", "timeToNextData", null, false);
 
 		Figure figure = new Figure(1000, 500);
 		figure.addComponent(0, 0, panel);
@@ -171,14 +170,14 @@ public class ConsensusSystem
 	//	å
 	public static Figure nodeChart2(TrajectorySet solution)
 	{
-		XYDataset dataset = ChartUtils.createXYDataset(solution, HybridTime.TIME, "sizeSent");
+		XYDataset dataset = ChartUtils.createXYDataset(solution, HybridTime.TIME, "totalDataTransferred");
 		JFreeChart plot = ChartUtils.createXYChart(solution, dataset, null, null, ChartType.LINE);
 		ChartPanel panel = ChartUtils.createPanel(plot);
-		XYDataset dataset2 = ChartUtils.createXYDataset(solution, HybridTime.TIME, "sizeReceived");
+		XYDataset dataset2 = ChartUtils.createXYDataset(solution, HybridTime.TIME, "pendingDataTransfer");
 		JFreeChart plot2 = ChartUtils.createXYChart(solution, dataset2, null, null, ChartType.LINE);
 		ChartPanel panel2 = ChartUtils.createPanel(plot2);
-		ChartUtils.configureLabels(panel, "Time (sec)", "Sent Size", null, false);
-		ChartUtils.configureLabels(panel2, "Time (sec)", "Received Size", null, false);
+		ChartUtils.configureLabels(panel, "Time (sec)", "totalDataTransferred", null, false);
+		ChartUtils.configureLabels(panel2, "Time (sec)", "pendingDataTransfer", null, false);
 
 		Figure figure = new Figure(1000, 500);
 		figure.addComponent(0, 0, panel);
@@ -191,15 +190,15 @@ public class ConsensusSystem
 		XYDataset dataset = ChartUtils.createXYDataset(solution, HybridTime.TIME, "sizeSent");
 		JFreeChart plot = ChartUtils.createXYChart(solution, dataset, null, null, ChartType.LINE);
 		ChartPanel panel = ChartUtils.createPanel(plot);
-		XYDataset dataset2 = ChartUtils.createXYDataset(solution, HybridTime.TIME, "sizeReceived");
+		XYDataset dataset2 = ChartUtils.createXYDataset(solution, HybridTime.TIME, "timeToNextData");
 		JFreeChart plot2 = ChartUtils.createXYChart(solution, dataset2, null, null, ChartType.LINE);
 		ChartPanel panel2 = ChartUtils.createPanel(plot2);
-		XYDataset dataset3 = ChartUtils.createXYDataset(solution, HybridTime.TIME, "dataToTransfer");
+		XYDataset dataset3 = ChartUtils.createXYDataset(solution, HybridTime.TIME, "dataGenerated");
 		JFreeChart plot3 = ChartUtils.createXYChart(solution, dataset3, null, null, ChartType.LINE);
 		ChartPanel panel3 = ChartUtils.createPanel(plot3);
 		ChartUtils.configureLabels(panel, "Time (sec)", "Sent Size", null, false);
-		ChartUtils.configureLabels(panel2, "Time (sec)", "Received Size", null, false);
-		ChartUtils.configureLabels(panel3, "Time (sec)", "Data to Write", null, false);
+		ChartUtils.configureLabels(panel2, "Time (sec)", "timeToNextData", null, false);
+		ChartUtils.configureLabels(panel3, "Time (sec)", "dataGenerated", null, false);
 
 		Figure figure = new Figure(1000, 1500);
 		figure.addComponent(0, 0, panel);

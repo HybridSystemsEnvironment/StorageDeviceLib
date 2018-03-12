@@ -15,9 +15,14 @@ public class PendingResponse
 
 	Object content;
 
+	public PendingResponse(boolean bool)
+	{
+		content = bool;
+	}
+
 	public PendingResponse()
 	{
-		content = "ssssss";
+		content = null;
 	}
 
 	public void writeToPath(Object object)

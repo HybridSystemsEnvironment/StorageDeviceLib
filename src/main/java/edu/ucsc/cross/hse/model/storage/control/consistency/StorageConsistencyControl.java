@@ -1,16 +1,16 @@
 package edu.ucsc.cross.hse.model.storage.control.consistency;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import edu.ucsc.cross.hse.core.modeling.HybridSystem;
 import edu.ucsc.cross.hse.lib.network.Node;
-import edu.ucsc.cross.hse.model.data.Data;
 import edu.ucsc.cross.hse.model.data.objects.RealData;
 import edu.ucsc.cross.hse.model.data.packet.BasicPacket;
 import edu.ucsc.cross.hse.model.data.packet.Packet;
 import edu.ucsc.cross.hse.model.data.packet.header.MinimalHeader;
-import edu.ucsc.cross.hse.model.storage.StorageDevice;
-import edu.ucsc.cross.hse.model.storage.control.StorageController;
+import edu.ucsc.cross.hse.model.storage.lowlevel.PendingResponse;
+import edu.ucsc.cross.hse.model.storage.lowlevel.StorageDevice;
 import edu.ucsc.cross.hse.model.storage.specification.StorageDeviceStatus;
 import edu.ucsc.cross.hse.model.storage.states.ConsistencyControlState;
 
@@ -19,75 +19,25 @@ import edu.ucsc.cross.hse.model.storage.states.ConsistencyControlState;
 // Received broadcast
 // Received read/write/delete command
 // Storage device has completed task and more are pending
-public class ParamConsistencyController extends HybridSystem<ConsistencyControlState> implements StorageController
+public class StorageConsistencyControl extends HybridSystem<ConsistencyControlState> implements StorageDevice
 {
 
-	public BroadcastSystem storageQueue;
-	public ConsistentQueue consQueue;
-	public Node node;
-	public boolean writing = false;
+	private StorageDevice storage;
 
-	public ParamConsistencyController(BroadcastSystem storageQueue, Node stor)
+	public BroadcastSystemAv storageQueue;
+	public HashMap<Object, Object> localDataReplica;
+	public HashMap<Object, Object> localUpdateQueue;
+	public Node node;
+
+	public StorageConsistencyControl(StorageDevice storage, BroadcastSystemAv storageQueue, Node stor)
 	{
 		super(new ConsistencyControlState());
 		node = stor;
+		this.storage = storage;
 		this.storageQueue = storageQueue;
-		consQueue = new ConsistentQueue();
-	}
-
-	public StorageDevice getDevice()
-	{
-		return consQueue;
-	}
-
-	@Override
-	public boolean isRequestPending()
-	{
-		// TODO Auto-generated method stub
-		return (!writing) && (consQueue.pendingWrites.size() > 0);//|| consQueue.pendingReads.size() > 0);
-	}
-
-	@Override
-	public StorageDeviceStatus getHardwareStatus()
-	{
-		//		// TODO Auto-generated method stub
-		//		if (storageQueue.pendingReads.contains(storageQueue.ordered.get(0)))
-		//		{
-		//			return StorageDeviceStatus.READ;
-		//		} else if (storageQueue.pendingWrites.contains(storageQueue.ordered.get(0)))
-		//		{
-		//			return StorageDeviceStatus.WRITE;
-		//		} else
-		//		{
-		if (writing)
-		{
-			return StorageDeviceStatus.WRITE;
-		} else
-		{
-			return StorageDeviceStatus.IDLE;
-		}
-		//	}
-	}
-
-	@Override
-	public Data getNextRequest()
-	{
-		System.out.println("n");
-		writing = true;
-		Data d = consQueue.pendingWrites
-		.get(consQueue.pendingWrites.keySet().toArray(new Object[consQueue.pendingWrites.size()])[0]);
-		consQueue.pendingWrites.remove(d);
-		return d;//consQueue.pendingWrites
-		//.get(consQueue.pendingWrites.keySet().toArray(new Object[consQueue.pendingWrites.size()])[0]);
-	}
-
-	@Override
-	public void adknowledgeCompletedRequest(Data data)
-	{
-		consQueue.pendingWrites.remove(data);
-		consQueue.localUpdateQueue.remove(data);
-		writing = false;
-		System.out.println(data);
+		localDataReplica = new HashMap<Object, Object>();
+		localUpdateQueue = new HashMap<Object, Object>();
+		storageQueue.distributedNetwork.getTopology().addVertex(node);
 	}
 
 	@Override
@@ -98,6 +48,7 @@ public class ParamConsistencyController extends HybridSystem<ConsistencyControlS
 	}
 
 	@Override
+
 	public boolean D(ConsistencyControlState arg0)
 	{
 		//boolean broadcast = broadcastAdknowledged(arg0);
@@ -168,15 +119,15 @@ public class ParamConsistencyController extends HybridSystem<ConsistencyControlS
 		{
 			if (arg0.isTurn <= 0.0)
 			{
-				//System.out.println(this + "'s turn");
-				//	transmitUpdates(new UpdateQueue(consQueue.localUpdateQueue));
+				System.out.println(this + "'s turn");
+				transmitUpdates(localUpdateQueue);
 				arg1.isTurn = 1.0;
 			} else
 			{
 				if (storageQueue.pendingUpdates() || arg0.pendingTransmissions.size() <= 0.0)
 				{
 					arg1.isTurn = 0.0;
-					consQueue.localUpdateQueue.clear();
+					localUpdateQueue.clear();
 					storageQueue.nextTurn();
 				}
 			}
@@ -187,9 +138,9 @@ public class ParamConsistencyController extends HybridSystem<ConsistencyControlS
 	{
 		for (Object key : queue.localDataReplica.keySet())
 		{
-			if (!consQueue.localUpdateQueue.containsKey(key))
+			//if (!localUpdateQueue.containsKey(key))
 			{
-				consQueue.pendingWrites.put(key, queue.localDataReplica.get(key));
+				storage.requestWrite(key, queue.localDataReplica.get(key));
 			}
 		}
 	}
@@ -204,11 +155,11 @@ public class ParamConsistencyController extends HybridSystem<ConsistencyControlS
 
 	}
 
-	public ArrayList<Node> transmitUpdates(UpdateQueue queue)
+	public ArrayList<Node> transmitUpdates(HashMap<Object, Object> queue)
 	{
 		ArrayList<Node> pending = new ArrayList<Node>();
 
-		if (queue.localDataReplica.size() > 0)
+		if (queue.size() > 0)
 		{
 			for (Node conn : storageQueue.distributedNetwork.getTopology().vertexSet())
 			{
@@ -284,6 +235,36 @@ public class ParamConsistencyController extends HybridSystem<ConsistencyControlS
 		}
 		return false;
 
+	}
+
+	@Override
+	public StorageDeviceStatus getStatus()
+	{
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean changeStatus(StorageDeviceStatus status)
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public PendingResponse requestWrite(Object path, Object content)
+	{
+		this.localDataReplica.put(path, content);
+		this.localUpdateQueue.put(path, content);
+		this.storage.requestWrite(path, content);
+		return new PendingResponse(true);
+	}
+
+	@Override
+	public PendingResponse requestRead(Object path)
+	{
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

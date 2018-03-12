@@ -1,2 +1,0 @@
-[13:07:45.905][info] Environment started  [1339/1489 mB]
-[13:07:45.905][info] Environment Stopped  [1352/1489 mB]

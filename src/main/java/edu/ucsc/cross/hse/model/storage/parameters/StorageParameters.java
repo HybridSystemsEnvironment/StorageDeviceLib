@@ -8,11 +8,13 @@ public class StorageParameters extends DataStructure
 
 	public double writeSpeed;
 	public double readSpeed;
+	public double queueSize;
 
-	public StorageParameters(double write_speed, double read_speed)
+	public StorageParameters(double write_speed, double read_speed, double queue_size)
 	{
 		writeSpeed = write_speed;
 		readSpeed = read_speed;
+		this.queueSize = queue_size;
 	}
 
 	public double getSpeed(StorageDeviceStatus status)
