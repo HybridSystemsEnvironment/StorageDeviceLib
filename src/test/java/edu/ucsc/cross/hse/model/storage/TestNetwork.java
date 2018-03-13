@@ -1,7 +1,5 @@
 package edu.ucsc.cross.hse.model.storage;
 
-import java.io.File;
-
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.data.xy.XYDataset;
@@ -15,16 +13,11 @@ import edu.ucsc.cross.hse.core.figure.Figure;
 import edu.ucsc.cross.hse.core.modeling.SystemSet;
 import edu.ucsc.cross.hse.core.trajectory.HybridTime;
 import edu.ucsc.cross.hse.core.trajectory.TrajectorySet;
-import edu.ucsc.cross.hse.core.variable.DependentVariable;
 import edu.ucsc.cross.hse.model.data.objects.RealData;
 import edu.ucsc.cross.hse.model.storage.control.FIFOStorageController;
-import edu.ucsc.cross.hse.model.storage.lowlevel.BaseStorageState;
 import edu.ucsc.cross.hse.model.storage.parameters.StorageParameters;
-import edu.ucsc.cross.hse.model.storage.specification.StorageDeviceStatus;
 import edu.ucsc.cross.hse.model.storage.states.StorageState;
 import edu.ucsc.cross.hse.model.storage.systems.StorageSystem;
-import edu.ucsc.cross.hse.property.electrical.ElectricalProperties;
-import edu.ucsc.cross.hse.property.generation.ConstructElectricalProfile;
 
 public class TestNetwork
 {
@@ -35,11 +28,11 @@ public class TestNetwork
 	public static void main(String args[])
 	{
 
-		BaseStorageState state = new BaseStorageState();
-		DependentVariable<ElectricalProperties> emmc = ConstructElectricalProfile
-		.createDynamicVariable(ElectricalProperties.class, state, "status", StorageDeviceStatus.class, new File(""));
-		//Console.getSettings().printIntegratorExceptions = false;
-		//ionAndPlot();
+		//		BaseStorageState state = new BaseStorageState();
+		//		DependentVariable<ElectricalProperties> emmc = ConstructElectricalProfile
+		//		.createDynamicVariable(ElectricalProperties.class, state, "status", StorageDeviceStatus.class, new File(""));
+		//		//Console.getSettings().printIntegratorExceptions = false;
+		ionAndPlot();
 	}
 
 	public static void ionAndPlot()

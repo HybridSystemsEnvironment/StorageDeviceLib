@@ -122,23 +122,25 @@ public class StorageConsistencyControl extends HybridSystem<ConsistencyControlSt
 				System.out.println(this + "'s turn");
 				transmitUpdates(localUpdateQueue);
 				arg1.isTurn = 1.0;
-			} else
+			}
+		} else
+
+		{
+			if (arg0.isTurn > 0) //storageQueue.pendingUpdates() || arg0.pendingTransmissions.size() <= 0.0)
 			{
-				if (storageQueue.pendingUpdates() || arg0.pendingTransmissions.size() <= 0.0)
-				{
-					arg1.isTurn = 0.0;
-					localUpdateQueue.clear();
-					storageQueue.nextTurn();
-				}
+				localUpdateQueue.clear();
+				storageQueue.nextTurn();
+				arg1.isTurn = 0.0;
 			}
 		}
+
 	}
 
 	public void receiveUpdates(UpdateQueue queue)
 	{
 		for (Object key : queue.localDataReplica.keySet())
 		{
-			//if (!localUpdateQueue.containsKey(key))
+			if (!localUpdateQueue.containsKey(key))
 			{
 				storage.requestWrite(key, queue.localDataReplica.get(key));
 			}

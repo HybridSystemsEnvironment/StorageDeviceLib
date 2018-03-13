@@ -14,5 +14,6 @@ public class BaseStorageState extends DataStructure
 	{
 		this.pendingDataTransfer = 0;
 		totalDataTransferred = 0;
+		status = StorageDeviceStatus.OFF;
 	}
 }

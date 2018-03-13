@@ -31,7 +31,7 @@ dependencies {
       compile "com.github.HybridSystemsEnvironment:HybridSystemsEnvironment:-SNAPSHOT"
             compile "com.github.HybridSystemsEnvironment:DataModelLib:-SNAPSHOT"
                   compile "com.github.HybridSystemsEnvironment:NetworkLib:-SNAPSHOT"
-           //             compile "com.github.HybridSystemsEnvironment:DigitalCommunicationSimLib:-SNAPSHOT"
+                      compile "com.github.HybridSystemsEnvironment:DigitalCommunicationSimLib:-SNAPSHOT"
             compile 'com.github.HybridSystemsEnvironment:PropertyToolbox:-SNAPSHOT'
             compile 'com.github.HybridSystemsEnvironment:ElectricalModelingLibrary:-SNAPSHOT'
       

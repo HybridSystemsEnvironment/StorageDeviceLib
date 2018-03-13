@@ -17,6 +17,9 @@ import edu.ucsc.cross.hse.core.trajectory.TrajectorySet;
 import edu.ucsc.cross.hse.core.variable.RandomVariable;
 import edu.ucsc.cross.hse.lib.network.Network;
 import edu.ucsc.cross.hse.lib.network.Node;
+import edu.ucsc.cross.hse.lib.network.framework.AgentSystem;
+import edu.ucsc.cross.hse.lib.network.framework.SimulatedAgentParameters;
+import edu.ucsc.cross.hse.lib.network.framework.SpammerState;
 import edu.ucsc.cross.hse.model.network.ideal.IdealNetwork;
 import edu.ucsc.cross.hse.model.node.simple.NetworkNode;
 import edu.ucsc.cross.hse.model.storage.parameters.StorageParameters;
@@ -88,11 +91,11 @@ public class ConsensusSystem
 			ParamConsistencyController con = new ParamConsistencyController(net, storNode);
 			net.controllers.add(con);
 			StorageSystem store = new StorageSystem(new StorageState(), storParam, con);
-			//			AgentSystem agent = new AgentSystem(new SpammerState(0.0),
-			//			new SimulatedAgentParameters(min_send, max_send, min_size, max_size), new NetworkNode(internet),
-			//			con.consQueue);
-			//internet.getTopology().addVertex(agent.localNode);
-			//	set.add(agent, store, con);
+			AgentSystem agent = new AgentSystem(new SpammerState(0.0),
+			new SimulatedAgentParameters(min_send, max_send, min_size, max_size), new NetworkNode(internet),
+			con.getDevice());
+			internet.getTopology().addVertex(agent.localNode);
+			set.add(agent, store, con);
 		}
 		return set;
 	}

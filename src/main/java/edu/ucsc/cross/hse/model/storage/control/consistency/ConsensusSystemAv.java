@@ -48,7 +48,7 @@ public class ConsensusSystemAv
 		settings.odeMinimumStepSize = .00000005;
 		settings.eventHandlerMaximumCheckInterval = .00005;
 		// initialize the execution parameters 
-		ExecutionParameters parameters = new ExecutionParameters(35.0, 53320, .1);
+		ExecutionParameters parameters = new ExecutionParameters(35.0, 53320, .5);
 		// initialize the node parameters
 		IdealNetwork netb = new IdealNetwork();
 
@@ -56,19 +56,24 @@ public class ConsensusSystemAv
 		// create environment
 		HSEnvironment env = HSEnvironment.create(systems, parameters, settings);
 		//BandwidthNetwork net = new BandwidthNetwork(new BandwidthNetworkState(),
-		IdealNetwork net = new IdealNetwork();
-
 		//new BandwidthParameters(1000, BandwidthConfiguration.CONSTANT));
+		IdealNetwork net = new IdealNetwork();
 		//DelayedNetworkSystem net = new DelayedNetworkSystem(new DelayedNetworkState(),
 		//	new DelayedNetworkParameters(.5, 1.5);
-		SystemSet agents = createAgents(net, bs, 22, 4.2, 7.7, 115, 211);
-		connectRandomly(net, 4, 21);
+		SystemSet agents = createAgents(net, bs, 5, 2, 7, 15, 21);
+		connectRandomly(net, 1, 2);
 		connectStorage(bs);
 		env.getSystems().add(agents);
+		env.getSystems().add(net);
 		env.getSystems().add(bs);
 		env.getSystems().add(netb);
-		//env.run();
+		env.run();
 		nodeChart2(env.run()).display();
+		//storageChart(env.getTrajectories()).display();
+
+		//nodeChart2(env.run()).display();
+		//nodeChart3(env.run()).display();
+		storageChart(env.getTrajectories()).display();
 		//storageChart(env.getTrajectories()).display();
 
 		//nodeChart2(env.run()).display();

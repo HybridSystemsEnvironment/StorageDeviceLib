@@ -35,61 +35,6 @@ public class ParamConsistencyController extends HybridSystem<ConsistencyControlS
 		consQueue = new ConsistentQueue();
 	}
 
-	public StorageDevice getDevice()
-	{
-		return consQueue;
-	}
-
-	@Override
-	public boolean isRequestPending()
-	{
-		// TODO Auto-generated method stub
-		return (!writing) && (consQueue.pendingWrites.size() > 0);//|| consQueue.pendingReads.size() > 0);
-	}
-
-	@Override
-	public StorageDeviceStatus getHardwareStatus()
-	{
-		//		// TODO Auto-generated method stub
-		//		if (storageQueue.pendingReads.contains(storageQueue.ordered.get(0)))
-		//		{
-		//			return StorageDeviceStatus.READ;
-		//		} else if (storageQueue.pendingWrites.contains(storageQueue.ordered.get(0)))
-		//		{
-		//			return StorageDeviceStatus.WRITE;
-		//		} else
-		//		{
-		if (writing)
-		{
-			return StorageDeviceStatus.WRITE;
-		} else
-		{
-			return StorageDeviceStatus.IDLE;
-		}
-		//	}
-	}
-
-	@Override
-	public Data getNextRequest()
-	{
-		System.out.println("n");
-		writing = true;
-		Data d = consQueue.pendingWrites
-		.get(consQueue.pendingWrites.keySet().toArray(new Object[consQueue.pendingWrites.size()])[0]);
-		consQueue.pendingWrites.remove(d);
-		return d;//consQueue.pendingWrites
-		//.get(consQueue.pendingWrites.keySet().toArray(new Object[consQueue.pendingWrites.size()])[0]);
-	}
-
-	@Override
-	public void adknowledgeCompletedRequest(Data data)
-	{
-		consQueue.pendingWrites.remove(data);
-		consQueue.localUpdateQueue.remove(data);
-		writing = false;
-		System.out.println(data);
-	}
-
 	@Override
 	public boolean C(ConsistencyControlState arg0)
 	{
@@ -284,6 +229,54 @@ public class ParamConsistencyController extends HybridSystem<ConsistencyControlS
 		}
 		return false;
 
+	}
+
+	@Override
+	public StorageDevice getDevice()
+	{
+		// TODO Auto-generated method stub
+		return this.consQueue;
+	}
+
+	@Override
+	public boolean isRequestPending()
+	{
+		// TODO Auto-generated method stub
+		return (!writing) && (consQueue.pendingWrites.size() > 0);//|| consQueue.pendingReads.size() > 0);
+
+	}
+
+	@Override
+	public StorageDeviceStatus getHardwareStatus()
+	{
+
+		if (writing)
+		{
+			return StorageDeviceStatus.WRITE;
+		} else
+		{
+			return StorageDeviceStatus.IDLE;
+		}
+	}
+
+	@Override
+	public Data getNextRequest()
+	{
+		System.out.println("n");
+		writing = true;
+		Data d = consQueue.pendingWrites
+		.get(consQueue.pendingWrites.keySet().toArray(new Object[consQueue.pendingWrites.size()])[0]);
+		consQueue.pendingWrites.remove(d);
+		return d;//consQueue.pendingWrites
+	}
+
+	@Override
+	public void adknowledgeCompletedRequest(Data done)
+	{
+		consQueue.pendingWrites.remove(done);
+		consQueue.localUpdateQueue.remove(done);
+		writing = false;
+		System.out.println(done);
 	}
 
 }

@@ -3,12 +3,9 @@ package edu.ucsc.cross.hse.model.storage.lowlevel;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import edu.ucsc.cross.hse.core.environment.EnvironmentSettings;
-import edu.ucsc.cross.hse.core.environment.ExecutionParameters;
-import edu.ucsc.cross.hse.core.environment.HSEnvironment;
-import edu.ucsc.cross.hse.core.logging.Console;
+import com.carrotsearch.sizeof.RamUsageEstimator;
+
 import edu.ucsc.cross.hse.core.modeling.HybridSystem;
-import edu.ucsc.cross.hse.core.modeling.SystemSet;
 import edu.ucsc.cross.hse.model.storage.parameters.StorageParameters;
 import edu.ucsc.cross.hse.model.storage.specification.StorageDeviceStatus;
 
@@ -70,7 +67,7 @@ public class BaseStorageModel extends HybridSystem<BaseStorageState> implements 
 	{
 		if (cleanupTask(arg0))
 		{
-			arg1.totalDataTransferred = (double) currentTask.value;
+			arg1.totalDataTransferred += RamUsageEstimator.sizeOf(currentTask.variable);
 			completeWriteProc();
 		} else
 		{
@@ -104,41 +101,11 @@ public class BaseStorageModel extends HybridSystem<BaseStorageState> implements 
 		{
 			currentTask = tasks.get(0);
 			arg1.pendingDataTransfer = (double) currentTask.value;
+			tasks.remove(0);
 		} catch (Exception e)
 		{
 			System.out.println("nojobs");
 		}
-	}
-
-	/*
-	 * Main class needed to run java application
-	 */
-	public static void main(String args[])
-	{
-		Console.getSettings().printIntegratorExceptions = false;
-		ionAndPlot();
-	}
-
-	public static void ionAndPlot()
-	{
-		// initialize system set
-		SystemSet systems = new SystemSet();
-		// initialize environment settings 
-		EnvironmentSettings settings = new EnvironmentSettings();
-		settings.odeMaximumStepSize = .0005;
-		settings.odeMinimumStepSize = .00000005;
-		settings.eventHandlerMaximumCheckInterval = .00005;
-		// initialize the execution parameters 
-		ExecutionParameters parameters = new ExecutionParameters(35.0, 53320, .5);
-		// initialize the node parameters
-
-		BaseStorageModel m = new BaseStorageModel(new BaseStorageState(), new StorageParameters(100, 100, 30));
-
-		systems.add(m);
-		HSEnvironment env2 = HSEnvironment.create(systems, parameters, settings);
-		env2.run();
-		//	System.out.println(XMLParser.serializeObject(s));
-
 	}
 
 	@Override
@@ -178,6 +145,7 @@ public class BaseStorageModel extends HybridSystem<BaseStorageState> implements 
 	{
 
 		storedContent.put(currentTask.variable, currentTask.value);
+
 		System.out.println("Stored " + currentTask.variable + " -> " + currentTask.value);
 		cleanLastJob();
 		tasks.remove(currentTask);
