@@ -62,7 +62,7 @@ public class ConsensusSystemAv
 		//DelayedNetworkSystem net = new DelayedNetworkSystem(new DelayedNetworkState(),
 		//	new DelayedNetworkParameters(.5, 1.5);
 		SystemSet agents = createAgents(net, bs, 22, 4.2, 7.7, 115, 211);
-		connectRandomly(net, 22, 22);
+		connectRandomly(net, 4, 21);
 		connectStorage(bs);
 		env.getSystems().add(agents);
 		env.getSystems().add(bs);

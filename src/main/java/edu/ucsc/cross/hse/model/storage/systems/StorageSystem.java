@@ -67,14 +67,4 @@ public class StorageSystem extends HybridSystem<StorageState>
 		}
 	}
 
-	public static double getStoredDataSize(StorageState x)
-	{
-		double stored = 0.0;
-		System.out.println("jjjjj" + x.storedData.size());
-		for (Data p : x.storedData.values())
-		{
-			stored += p.getSize();
-		}
-		return stored;
-	}
 }

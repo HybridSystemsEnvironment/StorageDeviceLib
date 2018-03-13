@@ -169,7 +169,7 @@ public class ParamConsistencyController extends HybridSystem<ConsistencyControlS
 			if (arg0.isTurn <= 0.0)
 			{
 				//System.out.println(this + "'s turn");
-				//	transmitUpdates(new UpdateQueue(consQueue.localUpdateQueue));
+				transmitUpdates(new UpdateQueue(consQueue.localUpdateQueue));
 				arg1.isTurn = 1.0;
 			} else
 			{
